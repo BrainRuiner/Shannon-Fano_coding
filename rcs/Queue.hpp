@@ -3,7 +3,7 @@
 
 namespace que
 {
-  template <class T>
+  template < class T >
   class Queue
   {
     public:

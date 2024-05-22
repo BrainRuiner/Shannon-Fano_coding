@@ -1,5 +1,5 @@
-#ifndef QUEUEARRAY_hPP
-#define QUEUEARRAY_hPP
+#ifndef QUEUEARRAY_HPP
+#define QUEUEARRAY_HPP
 
 #include "Queue.hpp"
 #include <exception>
@@ -31,18 +31,19 @@ namespace qarExc
     }
   };
 }
+
 namespace qar
 {
-  template <class T>
-  class QueueArray: public que::Queue
+  template < class T >
+  class QueueArray: public que::Queue< T >
   {
     public:
     QueueArray(int size = 100);
     QueueArray(const QueueArray& src);
     QueueArray(QueueArray&& src);
     virtual ~QueueArray();
-    QueueArray<T>& operator=(const QueueArray& src);
-    QueueArray<T>& operator=(QueueArray&& src);
+    QueueArray< T >& operator=(const QueueArray& src);
+    QueueArray< T >& operator=(QueueArray&& src);
 
     void enQueue(const T& e);
     T deQueue();
@@ -57,8 +58,8 @@ namespace qar
     void swap(QueueArray& src);
   };
 }
-template <class T>
-qar::QueueArray<T>::QueueArray(int size):
+template < class T >
+qar::QueueArray< T >::QueueArray(int size):
   array_(nullptr),
   head_(-1),
   tail_(-1),
@@ -77,8 +78,8 @@ qar::QueueArray<T>::QueueArray(int size):
     throw qarExc::WrongQueueSize();
   }
 }
-template <class T>
-qar::QueueArray<T>::QueueArray(const QueueArray& src):
+template < class T >
+qar::QueueArray< T >::QueueArray(const QueueArray& src):
   array_(nullptr),
   head_(src.head_),
   tail_(src.tail_),
@@ -98,8 +99,8 @@ qar::QueueArray<T>::QueueArray(const QueueArray& src):
     throw e;
   }
 }
-template <class T>
-qar::QueueArray<T>::QueueArray(QueueArray&& src):
+template < class T >
+qar::QueueArray< T >::QueueArray(QueueArray&& src):
   array_(nullptr),
   head_(src.head_),
   tail_(src.tail_),
@@ -110,20 +111,20 @@ qar::QueueArray<T>::QueueArray(QueueArray&& src):
   src.tail_ = -1;
   src.size_ = 0;
 }
-template <class T>
-qar::QueueArray<T>::~QueueArray()
+template < class T >
+qar::QueueArray< T >::~QueueArray()
 {
   delete[] array_;
 }
-template <class T>
-qar::QueueArray<T>& qar::QueueArray<T>::operator=(const QueueArray& src)
+template < class T >
+qar::QueueArray< T >& qar::QueueArray< T >::operator=(const QueueArray& src)
 {
-  QueueArray<T> tmp(src);
+  QueueArray< T > tmp(src);
   swap(tmp);
   return *this;
 }
-template <class T>
-qar::QueueArray<T>& qar::QueueArray<T>::operator=(QueueArray&& src)
+template < class T >
+qar::QueueArray< T >& qar::QueueArray< T >::operator=(QueueArray&& src)
 {
   array_ = src.array_;
   head_ = src.head_;
@@ -135,8 +136,8 @@ qar::QueueArray<T>& qar::QueueArray<T>::operator=(QueueArray&& src)
   src.tail_ = -1;
   src.size_ = 0;
 }
-template <class T>
-void qar::QueueArray<T>::enQueue(const T& e)
+template < class T >
+void qar::QueueArray< T >::enQueue(const T& e)
 {
   if (isEmpty())
   {
@@ -154,8 +155,8 @@ void qar::QueueArray<T>::enQueue(const T& e)
   tail_ = (tail_ + 1) % size_;
   array_[tail_] = e;
 }
-template <class T>
-T qar::QueueArray<T>::deQueue()
+template < class T >
+T qar::QueueArray< T >::deQueue()
 {
   if (isEmpty())
   {
@@ -174,18 +175,18 @@ T qar::QueueArray<T>::deQueue()
   }
   return tmp;
 }
-template <class T>
-bool qar::QueueArray<T>::isEmpty()
+template < class T >
+bool qar::QueueArray< T >::isEmpty()
 {
   return head_ == -1 && tail_ == -1;
 }
-template <class T>
-bool qar::QueueArray<T>::isFull()
+template < class T >
+bool qar::QueueArray< T >::isFull()
 {
   return (head_ - tail_ == 1) || (head_ == 0 && tail_ == size_ - 1);
 }
-template <class T>
-void qar::QueueArray<T>::swap(QueueArray& src)
+template < class T >
+void qar::QueueArray< T >::swap(QueueArray& src)
 {
   std::swap(array_, src.array_);
   std::swap(head_, src.head_);
