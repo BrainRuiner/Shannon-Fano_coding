@@ -4,3 +4,6 @@
 *.sh
 #projMaker
 .proj/
+#execs
+*.exe
+*.out
