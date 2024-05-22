@@ -3,11 +3,12 @@
 
 #include <ostream>
 #include <cmath>
+#include <string>
 #include "QueueArray.hpp"
 
 namespace bst
 {
-	template <class T>
+	template < class T >
 	class BinarySearchTree
 	{
 		public:
@@ -30,6 +31,9 @@ namespace bst
 		void walkByLevels(std::ostream& out) const;
 		bool isSimilar(const BinarySearchTree& other) const;
 		bool isIdenticalKey(const BinarySearchTree& other) const;
+
+		std::string getPath(const T& key) const;
+
 		private:
 		struct Node
 		{
@@ -57,18 +61,18 @@ namespace bst
 	};
 }
 
-template <class T>
-bst::BinarySearchTree<T>::BinarySearchTree():
+template < class T >
+bst::BinarySearchTree< T >::BinarySearchTree():
 	root_(nullptr)
 {}
-template <class T>
-bst::BinarySearchTree<T>::BinarySearchTree(BinarySearchTree&& src) noexcept:
+template < class T >
+bst::BinarySearchTree< T >::BinarySearchTree(BinarySearchTree&& src) noexcept:
 	root_(src.root_)
 {
 	src.root_ = nullptr;
 }
-template <class T>
-bst::BinarySearchTree<T>::~BinarySearchTree()
+template < class T >
+bst::BinarySearchTree< T >::~BinarySearchTree()
 {
 	while (root_)
 	{
@@ -76,8 +80,8 @@ bst::BinarySearchTree<T>::~BinarySearchTree()
 	}
 }
 
-template <class T>
-bst::BinarySearchTree<T>& bst::BinarySearchTree<T>::operator=(BinarySearchTree&& src) noexcept
+template < class T >
+bst::BinarySearchTree< T >& bst::BinarySearchTree< T >::operator=(BinarySearchTree&& src) noexcept
 {
 	if (this != &src)
 	{
@@ -87,13 +91,13 @@ bst::BinarySearchTree<T>& bst::BinarySearchTree<T>::operator=(BinarySearchTree&&
 	return *this;
 }
 
-template <class T>
-bool bst::BinarySearchTree<T>::searchKeyIterative(const T& key) const
+template < class T >
+bool bst::BinarySearchTree< T >::searchKeyIterative(const T& key) const
 {
 	return searchNodeIterative(key);
 }
-template <class T>
-bool bst::BinarySearchTree<T>::insertNode(const T& key)
+template < class T >
+bool bst::BinarySearchTree< T >::insertNode(const T& key)
 {
 	if (!root_)
 	{
@@ -130,8 +134,8 @@ bool bst::BinarySearchTree<T>::insertNode(const T& key)
 	}
 	return !current;
 }
-template <class T>
-bool bst::BinarySearchTree<T>::deleteNode(const T& key)
+template < class T >
+bool bst::BinarySearchTree< T >::deleteNode(const T& key)
 {
 	Node* toTermination = searchNodeIterative(key);
 	if (!toTermination)
@@ -220,23 +224,23 @@ bool bst::BinarySearchTree<T>::deleteNode(const T& key)
 	delete toTermination;
 	return true;
 }
-template <class T>
-void bst::BinarySearchTree<T>::output(std::ostream& out) const
+template < class T >
+void bst::BinarySearchTree< T >::output(std::ostream& out) const
 {
 	output(out, root_);
 }
-template <class T>
-int bst::BinarySearchTree<T>::getNumberOfNodes() const
+template < class T >
+int bst::BinarySearchTree< T >::getNumberOfNodes() const
 {
 	return getNumberOfNodes(root_);
 }
-template <class T>
-int bst::BinarySearchTree<T>::getHeight() const
+template < class T >
+int bst::BinarySearchTree< T >::getHeight() const
 {
 	return root_ ? getHeight(root_) - 1 : 0;
 }
-template <class T>
-void bst::BinarySearchTree<T>::inorderWalkIterative(std::ostream& out) const
+template < class T >
+void bst::BinarySearchTree< T >::inorderWalkIterative(std::ostream& out) const
 {
 	Node* current = getMin(root_);
 	while (current)
@@ -245,20 +249,20 @@ void bst::BinarySearchTree<T>::inorderWalkIterative(std::ostream& out) const
 		current = getNext(current);
 	}
 }
-template <class T>
-void bst::BinarySearchTree<T>::inorderWalk(std::ostream& out) const
+template < class T >
+void bst::BinarySearchTree< T >::inorderWalk(std::ostream& out) const
 {
 	inorderWalk(out, root_);
 }
-template <class T>
-void bst::BinarySearchTree<T>::walkByLevels(std::ostream& out) const
+template < class T >
+void bst::BinarySearchTree< T >::walkByLevels(std::ostream& out) const
 {
 	if (!root_)
 	{
 		return;
 	}
 
-	QueueArray<Node*> q(( int ) std::pow(2, getHeight()));
+	qar::QueueArray<Node*> q(static_cast< int >(std::pow(2, getHeight())));
 	q.enQueue(root_);
 	Node* tmp = nullptr;
 	while (!q.isEmpty())
@@ -276,8 +280,8 @@ void bst::BinarySearchTree<T>::walkByLevels(std::ostream& out) const
 		}
 	}
 }
-template <class T>
-bool bst::BinarySearchTree<T>::isSimilar(const BinarySearchTree& other) const
+template < class T >
+bool bst::BinarySearchTree< T >::isSimilar(const BinarySearchTree& other) const
 {
 	Node* current = getMin(root_);
 	Node* otherCurrent = getMin(other.root_);
@@ -288,8 +292,8 @@ bool bst::BinarySearchTree<T>::isSimilar(const BinarySearchTree& other) const
 	}
 	return !current && !otherCurrent;
 }
-template <class T>
-bool bst::BinarySearchTree<T>::isIdenticalKey(const BinarySearchTree& other) const
+template < class T >
+bool bst::BinarySearchTree< T >::isIdenticalKey(const BinarySearchTree& other) const
 {
 	Node* current = getMin(root_);
 	Node* otherCurrent = getMin(other.root_);
@@ -310,9 +314,29 @@ bool bst::BinarySearchTree<T>::isIdenticalKey(const BinarySearchTree& other) con
 	}
 	return false;
 }
+template < class T >
+std::string bst::BinarySearchTree< T >::getPath(const T& key) const
+{
+	Node* current = root_;
+	std::string dest = "";
+	while (current && (current->key_ != key))
+	{
+		if (current->key_ < key)
+		{
+			dest += '1';
+			current = current->right_;
+		}
+		else
+		{
+			dest += '0';
+			current = current->left_;
+		}
+	}
+	return (current ? dest : dest = "");
+}
 
-template <class T>
-typename bst::BinarySearchTree<T>::Node* bst::BinarySearchTree<T>::searchNodeIterative(const T& key) const
+template < class T >
+typename bst::BinarySearchTree< T >::Node* bst::BinarySearchTree< T >::searchNodeIterative(const T& key) const
 {
 	Node* current = root_;
 	while (current && (current->key_ != key))
@@ -328,8 +352,8 @@ typename bst::BinarySearchTree<T>::Node* bst::BinarySearchTree<T>::searchNodeIte
 	}
 	return current;
 }
-template <class T>
-void bst::BinarySearchTree<T>::output(std::ostream& out, Node* const node) const
+template < class T >
+void bst::BinarySearchTree< T >::output(std::ostream& out, Node* const node) const
 {
 	if (node)
 	{
@@ -339,8 +363,8 @@ void bst::BinarySearchTree<T>::output(std::ostream& out, Node* const node) const
 		out << ')';
 	}
 }
-template <class T>
-int bst::BinarySearchTree<T>::getNumberOfNodes(Node* const node) const
+template < class T >
+int bst::BinarySearchTree< T >::getNumberOfNodes(Node* const node) const
 {
 	if (!node)
 	{
@@ -349,8 +373,8 @@ int bst::BinarySearchTree<T>::getNumberOfNodes(Node* const node) const
 	return (1 + getNumberOfNodes(node->left_) +
 		getNumberOfNodes(node->right_));
 }
-template <class T>
-int bst::BinarySearchTree<T>::getHeight(Node* const node) const
+template < class T >
+int bst::BinarySearchTree< T >::getHeight(Node* const node) const
 {
 	int counter = 0;
 	if (node)
@@ -366,8 +390,8 @@ int bst::BinarySearchTree<T>::getHeight(Node* const node) const
 	}
 	return counter;
 }
-template <class T>
-void bst::BinarySearchTree<T>::inorderWalk(std::ostream& out, Node* const node) const
+template < class T >
+void bst::BinarySearchTree< T >::inorderWalk(std::ostream& out, Node* const node) const
 {
 	if (node)
 	{
@@ -377,8 +401,8 @@ void bst::BinarySearchTree<T>::inorderWalk(std::ostream& out, Node* const node) 
 	}
 }
 
-template <class T>
-typename bst::BinarySearchTree<T>::Node* bst::BinarySearchTree<T>::getMin(Node* const node)
+template < class T >
+typename bst::BinarySearchTree< T >::Node* bst::BinarySearchTree< T >::getMin(Node* const node)
 {
 	Node* current = nullptr;
 	if (node)
@@ -391,8 +415,8 @@ typename bst::BinarySearchTree<T>::Node* bst::BinarySearchTree<T>::getMin(Node* 
 	}
 	return current;
 }
-template <class T>
-typename bst::BinarySearchTree<T>::Node* bst::BinarySearchTree<T>::getNext(Node* const node)
+template < class T >
+typename bst::BinarySearchTree< T >::Node* bst::BinarySearchTree< T >::getNext(Node* const node)
 {
 	if (node->right_)
 	{
