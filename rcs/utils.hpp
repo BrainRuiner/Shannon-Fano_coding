@@ -1,12 +1,20 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
-#include <exception>
+#include <stdexcept>
 
 namespace utl
 {
+  struct Node
+  {
+    char symbol;
+    size_t quantity;
+  };
+  bool isLessQuantity(const Node& n1, const Node& n2);
+  Node* sortByQuantity(Node* nodes, size_t size);
+
   template< class T, class Comp >
-  T* quickSort(T* arr, size_t size, Comp comp = operator<(const T&, const T&));
+  T* quickSort(T* arr, size_t size, Comp comp);
   template< class T, class Comp >
   T* quickSort(T* arr, size_t start, size_t end, Comp comp);
   template< class T >
@@ -21,10 +29,10 @@ T* utl::quickSort(T* arr, size_t size, Comp comp)
   T* tmpArr = nullptr;
   try
   {
-    tmpArr = new T[size];
+    tmpArr = new T[size]{};
     copyElements(tmpArr, arr, size);
-    quickSort(tmpArr, 0, size, comp);
-    copyElements(arr, tmpArr, size);
+    quickSort(tmpArr, 0, size - 1, comp);
+    return copyElements(arr, tmpArr, size);
   }
   catch (const std::bad_alloc&)
   {
@@ -32,7 +40,7 @@ T* utl::quickSort(T* arr, size_t size, Comp comp)
   }
   catch (...)
   {
-    throw
+    throw;
   }
 }
 template< class T, class Comp >
@@ -42,9 +50,9 @@ T* quickSort(T* arr, size_t start, size_t end, Comp comp)
   {
     return arr;
   }
-  T pivot = arr[(right - left) / 2];
   size_t left = start;
   size_t right = end;
+  T pivot = arr[(right - left) / 2];
   while (left <= right)
   {
     while (comp(arr[left], pivot))

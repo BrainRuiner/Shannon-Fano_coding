@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 #include "BinarySearchTree.hpp"
 
 namespace sfc
