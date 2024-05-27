@@ -1,46 +1,93 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
-#include <string>
-#include <memory>
-#include <set>
-#include <functional>
-#include <iostream>
+#include <stdexcept>
 
-namespace petrov
+namespace utl
 {
   struct Node
   {
-    using ptr = std::shared_ptr< Node >;
-    using cRP = const ptr&;
-
     char symbol;
-    size_t freq;
-    std::string code;
-    ptr left;
-    ptr right;
-
-    using str = std::string;
-    Node(char nSym = 0, size_t nFreq = 1, str nCode = "");
-    Node(const Node&) = default;
-    Node(Node&&) = default;
-    Node& operator=(const Node&) = default;
-    Node& operator=(Node&&) = default;
+    size_t quantity;
   };
-  using ptr = std::shared_ptr< Node >;
-  std::ostream& operator<<(std::ostream& out, const Node& node);
-  std::istream& operator>>(std::istream& in, Node& node);
+  bool isLessQuantity(const Node& n1, const Node& n2);
+  Node* sortByQuantity(Node* nodes, size_t size);
 
-  bool compareNodes(const Node& lhs, const Node& rhs);
-  bool doesNodeHaveKey(const Node& node, char key);
-  bool doesNodeHaveCode(const Node& node, const std::string& code);
-  bool isEqual(const Node& n1, const Node& n2);
+  template< class T, class Comp >
+  T* quickSort(T* arr, size_t size, Comp comp);
+  template< class T, class Comp >
+  T* quickSort(T* arr, size_t start, size_t end, Comp comp);
+  template< class T >
+  void swap(T& a, T& b);
+  template< class T >
+  T* copyElements(T* dest, const T* src, size_t size);
+}
 
-  using cmpType = std::function< bool(const Node&, const Node&) >;
-  using setType = std::set< Node, cmpType >;
-  void addToSet(setType& alph, char symbol);
-  bool doesContain(const setType& set, const Node& node);
-  bool isSubset(const setType& mainSet, const setType& testedSet);
+template< class T, class Comp >
+T* utl::quickSort(T* arr, size_t size, Comp comp)
+{
+  T* tmpArr = nullptr;
+  try
+  {
+    tmpArr = new T[size]{};
+    copyElements(tmpArr, arr, size);
+    quickSort(tmpArr, 0, size - 1, comp);
+    return copyElements(arr, tmpArr, size);
+  }
+  catch (const std::bad_alloc&)
+  {
+    throw std::logic_error("<INVALID SIZE>");
+  }
+  catch (...)
+  {
+    throw;
+  }
+}
+template< class T, class Comp >
+T* quickSort(T* arr, size_t start, size_t end, Comp comp)
+{
+  if (start >= end)
+  {
+    return arr;
+  }
+  size_t left = start;
+  size_t right = end;
+  T pivot = arr[(right - left) / 2];
+  while (left <= right)
+  {
+    while (comp(arr[left], pivot))
+    {
+      ++left;
+    }
+    while (comp(pivot, arr[right]))
+    {
+      --right;
+    }
+    if (left <= right)
+    {
+      swap(arr[left], arr[right]);
+      ++left;
+      --right;
+    }
+  }
+  quickSort(arr, start, right);
+  quickSort(arr, left, end);
+}
+template< class T >
+void utl::swap(T& a, T& b)
+{
+  T tmp = a;
+  a = b;
+  b = tmp;
+}
+template< class T >
+T* utl::copyElements(T* dest, const T* src, size_t size)
+{
+  for (size_t i = 0; i < size; ++i)
+  {
+    dest[i] = src[i];
+  }
+  return dest;
 }
 
 #endif
