@@ -16,7 +16,7 @@ namespace utl
   template< class T, class Comp >
   T* quickSort(T* arr, size_t size, Comp comp);
   template< class T, class Comp >
-  T* quickSort(T* arr, size_t start, size_t end, Comp comp);
+  T* quickSort(T* arr, size_t start, size_t end, const Comp& comp);
   template< class T >
   void swap(T& a, T& b);
   template< class T >
@@ -44,7 +44,7 @@ T* utl::quickSort(T* arr, size_t size, Comp comp)
   }
 }
 template< class T, class Comp >
-T* quickSort(T* arr, size_t start, size_t end, Comp comp)
+T* utl::quickSort(T* arr, size_t start, size_t end, const Comp& comp)
 {
   if (start >= end)
   {
@@ -70,8 +70,9 @@ T* quickSort(T* arr, size_t start, size_t end, Comp comp)
       --right;
     }
   }
-  quickSort(arr, start, right);
-  quickSort(arr, left, end);
+  quickSort(arr, start, right, comp);
+  quickSort(arr, left, end, comp);
+  return arr;
 }
 template< class T >
 void utl::swap(T& a, T& b)
