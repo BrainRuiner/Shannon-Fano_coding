@@ -9,23 +9,15 @@ namespace sfc
 {
   struct SFCoding
   {
-    SFCoding();
-    SFCoding(std::string* files, bst::BinarySearchTree< char >* codes);
-    SFCoding(const SFCoding& src) = delete;
-    SFCoding(const SFCoding&& src) = delete;
-    ~SFCoding();
-
-    SFCoding& operator=(const SFCoding& src) = delete;
-    SFCoding& operator=(const SFCoding&& src) = delete;
-
     void readCommands(std::istream& in, std::ostream& out);
+    std::ostream& decode(std::istream& in, std::ostream& out);
+    std::ostream& encode(std::istream& in, std::ostream& out);
 
     private:
-    char* decode(char* dest, char* src, const bst::BinarySearchTree< char >& codes);
-    char* encode(char* dest, char* src, const bst::BinarySearchTree< char >& codes);
-
-
-    bst::BinarySearchTree< char >& generateCodes(bst::BinarySearchTree< char >& dest, char* src);
+    using bTree = bst::BinarySearchTree< char >;
+    char* decode(char* dest, char* src, const bTree& codes);
+    char* encode(char* dest, char* src, const bTree& codes);
+    bTree& generateCodes(bTree& dest, char* src);
   };
 }
 
