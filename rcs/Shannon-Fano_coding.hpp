@@ -18,8 +18,12 @@ namespace sfc
     SFCoding& operator=(const SFCoding& src) = delete;
     SFCoding& operator=(const SFCoding&& src) = delete;
 
-    char* encode(char* dest, char* src, const bst::BinarySearchTree< char >& codes);
+    void readCommands(std::istream& in, std::ostream& out);
+
+    private:
     char* decode(char* dest, char* src, const bst::BinarySearchTree< char >& codes);
+    char* encode(char* dest, char* src, const bst::BinarySearchTree< char >& codes);
+
 
     bst::BinarySearchTree< char >& generateCodes(bst::BinarySearchTree< char >& dest, char* src);
   };
