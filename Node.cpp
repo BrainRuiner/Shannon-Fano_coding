@@ -2,7 +2,7 @@
 
 utl::Node* utl::getNode(Node*& dest, size_t& size, const std::string& src)
 {
-  std::string alph = "abcdefghijklmnopqrstuvwxyz0123456789 \n";
+  std::string alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 \n";
   size_t alphLen = alph.size();
   Node* preSet = new Node[alphLen]{};
   for (size_t i = 0; i < alphLen; ++i)

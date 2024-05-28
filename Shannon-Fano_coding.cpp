@@ -40,7 +40,15 @@ void sfc::SFCoding::decode(std::istream& in)
 {
   std::string bin, text;
   in >> bin >> text;
+  if (!codes_)
+  {
+    throw std::logic_error("<NO CODES PROVIDED>");
+  }
   std::ifstream fin(bin, std::ios::in | std::ios::binary);
+  if (!fin)
+  {
+    throw std::logic_error("<INVALID READ NAME>");
+  }
   std::ofstream fout(text, std::ios::out);
   char ch;
   std::string binary = "";
@@ -58,7 +66,7 @@ void sfc::SFCoding::decode(std::istream& in)
   {
     fout.close();
     fin.close();
-    throw std::logic_error("<NOT ENOUGH CODES>");
+    throw std::logic_error("<WRONG CODES>");
   }
   fout.close();
   fin.close();
@@ -67,7 +75,15 @@ void sfc::SFCoding::encode(std::istream& in)
 {
   std::string text, bin;
   in >> text >> bin;
+  if (!codes_)
+  {
+    throw std::logic_error("<NO CODES PROVIDED>");
+  }
   std::ifstream fin(text, std::ios::in);
+  if (!fin)
+  {
+    throw std::logic_error("<INVALID READ NAME>");
+  }
   std::ofstream fout(bin, std::ios::out | std::ios::binary);
   char ch;
   fin >> std::noskipws;
@@ -120,7 +136,7 @@ std::string sfc::SFCoding::encode(char src)
       return codes_[i].code;
     }
   }
-  throw std::logic_error("<NOT ENOUGH CODES>");
+  throw std::logic_error("<WRONG CODES>");
 }
 utl::Node* sfc::SFCoding::autoCodes(utl::Node* dest, size_t& size, const std::string& src)
 {
