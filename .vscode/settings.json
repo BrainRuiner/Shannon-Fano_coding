@@ -75,6 +75,7 @@
     "set": "cpp",
     "algorithm": "cpp",
     "functional": "cpp",
-    "unordered_map": "cpp"
+    "unordered_map": "cpp",
+    "fstream": "cpp"
   }
 }

@@ -8,21 +8,22 @@
 HuffmanCoding - запуск программы
 
 Система команд:  
-  [X]1. decode <binName> <txtName>
+  [V]1. decode <binName> <txtName>
   Расшифровать данные из <binName> и записать в <txtName>
   Если <txtName> не существует создать его
   Если <binName> не существует то вывести <INVALID READ NAME>
   Если хотя бы один из аргументов не передан то вывести <INVALID ARGUMENT>
 
-  [X]2. encode <txtName> <binName>
+  [V]2. encode <txtName> <binName>
   Зашифровать данные из <txtName> и записать в <binName>
   Если <binName> не существует создать его
   Если <txtName> не существует то вывести <INVALID READ NAME>
   Если хотя бы один из аргументов не передан то вывести <INVALID ARGUMENT>
 
-  [X]3. writeCodes <txtName> <codesFile>
+  [X]3. autoCodes <txtName> <codesFile>
   Построить код на основе текста и вывести его
   Если <codesFile> не существует создать его
   Если хотя бы один из аргументов не передан то вывести <INVALID ARGUMENT>
 
 Если введенной команды не существует, вывести <INVALID COMMAND>
+
