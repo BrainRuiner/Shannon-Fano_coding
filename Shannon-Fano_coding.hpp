@@ -15,10 +15,11 @@ namespace sfc
     std::ostream& makeCodes(std::istream& in, std::ostream& out);
 
     private:
-    using bTree = bst::BinarySearchTree< char >;
-    const std::string& decode(const std::string& dest, const std::string& src, const bTree& codes);
-    const std::string& encode(const std::string& dest, const std::string& src, const bTree& codes);
-    bTree& makeCodes(bTree& dest, const std::string& src);
+    utl::Node* codes;
+    char decode(char src);
+    char encode(char src);
+    utl::Node* makeCodes(utl::Node* dest, const std::string& src);
+    void FanosMethod(utl::Node* dest, size_t size);
   };
 }
 

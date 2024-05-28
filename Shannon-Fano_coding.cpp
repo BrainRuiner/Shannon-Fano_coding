@@ -32,29 +32,43 @@
 
 // }
 // std::ostream& encode(std::istream& in, std::ostream& out);
-// char* decode(char* dest, char* src, const bTree& codes);
-// char* encode(char* dest, char* src, const bTree& codes);
-sfc::SFCoding::bTree& sfc::SFCoding::makeCodes(bTree& dest, const std::string& src)
+char decode(char src);
+char encode(char src);
+utl::Node* sfc::SFCoding::makeCodes(utl::Node* dest, const std::string& src)
 {
   using namespace utl;
-  std::string alph = "abcdefghijklmnopqrstuvwxyz0123456789 \n";
-  size_t alphLen = alph.size();
-  Node* set = new Node[alphLen];
-  for (size_t i = 0; i < alphLen; ++i)
-  {
-    set[i].symbol = alph[i];
-  }
-  for (size_t i = 0; i < src.size(); ++i)
-  {
-    for (size_t j = 0; j < alphLen; ++j)
-    {
-      if (set[j].symbol == src[i])
-      {
-        ++set[j].quantity;
-      }
-    }
-  }
-  sortByQuantity(set, alphLen);
-  delete[] set;
+  size_t size = 0;
+  Node* set = nullptr;
+  getNode(set, size, src);
+  FanosMethod(set, size);
   return dest;
+}
+void sfc::SFCoding::FanosMethod(utl::Node* dest, size_t size)
+{
+  using namespace utl;
+  if (size < 2)
+  {
+    return;
+  }
+
+  size_t size1 = size / 2;
+  Node* arr1 = new Node[size1];
+  arr1 = dest;
+  size_t size2 = size - size1;
+  Node* arr2 = new Node[size2];
+  arr2 = &dest[size1];
+
+  for (size_t i = 0; i < size1; ++i)
+  {
+    arr1[i].code += '1';
+  }
+  for (size_t i = 0; i < size2; ++i)
+  {
+    arr2[i].code += '0';
+  }
+
+  FanosMethod(arr1, size1);
+  FanosMethod(arr2, size2);
+  delete[] arr1;
+  delete[] arr2;
 }

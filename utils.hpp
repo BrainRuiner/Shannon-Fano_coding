@@ -7,11 +7,11 @@ namespace utl
 {
   struct Node
   {
-    char symbol;
-    size_t quantity;
+    char symbol = 0;
+    size_t quantity = 0;
+    std::string code = "";
   };
-  bool isLessQuantity(const Node& n1, const Node& n2);
-  Node* sortByQuantity(Node* nodes, size_t size);
+  Node* getNode(Node*& set, size_t& size, const std::string& src);
 
   template< class T, class Comp >
   T* quickSort(T* arr, size_t size, Comp comp);
@@ -46,32 +46,24 @@ T* utl::quickSort(T* arr, size_t size, Comp comp)
 template< class T, class Comp >
 T* utl::quickSort(T* arr, size_t start, size_t end, const Comp& comp)
 {
-  if (start >= end)
+  if (start < end)
   {
-    return arr;
+    T pivot = arr[end];
+    size_t i = (start - 1);
+    for (size_t j = start; j < end; j++)
+    {
+      if (comp(arr[j], pivot))
+      {
+        i++;
+        swap(arr[i], arr[j]);
+      }
+    }
+    swap(arr[i + 1], arr[end]);
+    size_t pi = i + 1;
+
+    quickSort(arr, start, pi - 1, comp);
+    quickSort(arr, pi + 1, end, comp);
   }
-  size_t left = start;
-  size_t right = end;
-  T pivot = arr[(right - left) / 2];
-  while (left <= right)
-  {
-    while (comp(arr[left], pivot))
-    {
-      ++left;
-    }
-    while (comp(pivot, arr[right]))
-    {
-      --right;
-    }
-    if (left <= right)
-    {
-      swap(arr[left], arr[right]);
-      ++left;
-      --right;
-    }
-  }
-  quickSort(arr, start, right, comp);
-  quickSort(arr, left, end, comp);
   return arr;
 }
 template< class T >
