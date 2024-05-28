@@ -108,6 +108,10 @@ void sfc::SFCoding::autoCodes(std::istream& in)
   std::string text;
   in >> text;
   std::ifstream fin(text, std::ios::in);
+  if (!fin)
+  {
+    throw std::logic_error("<INVALID READ NAME>");
+  }
   fin.seekg(0, std::ios::end);
   size_t size = fin.tellg();
   std::string buffer(size, '\0');
