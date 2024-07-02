@@ -3,3 +3,6 @@
 #execs
 *.exe
 *.out
+#vscode
+.vscode/
+
