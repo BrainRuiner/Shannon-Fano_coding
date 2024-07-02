@@ -2,6 +2,7 @@
 #define CODE_NODE_HPP
 
 #include <string>
+#include <ostream>
 
 namespace codeWork
 {
@@ -15,7 +16,8 @@ namespace codeWork
     CodeNode* left;
     CodeNode* right;
     CodeNode* parent;
-    CodeNode(const T& k, size_t q, const std::string& c,
+
+    CodeNode(const T& k, size_t q = 0, const std::string& c = "",
       CodeNode* l = nullptr, CodeNode* r = nullptr, CodeNode* p = nullptr):
       key(k),
       quantity(q),
@@ -25,6 +27,11 @@ namespace codeWork
       parent(p)
     {}
   };
+  template <class T>
+  std::ostream& operator<<(std::ostream& out, const CodeNode<T>& node)
+  {
+    return out << node.key << " : " << node.quantity << " : " << node.code;
+  }
 }
 
 #endif
