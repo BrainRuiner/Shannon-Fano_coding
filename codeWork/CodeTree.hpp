@@ -2,7 +2,7 @@
 #define CODE_TREE_HPP
 
 #include <ostream>
-#include "codeNode.hpp"
+#include "CodeNode.hpp"
 
 namespace codeWork
 {
@@ -12,7 +12,14 @@ namespace codeWork
   {
     public:
     //Copies the node's data
-    CodeTree(const CodeNode* nodes, size_t size);
+    /*
+    Данные копируются. Поиск просходит по
+    обходу звеньев. Не очень эффективно но
+    я хз как искать по дереву чтобы было эфективно
+    учитывая что оно создается на данных которые
+    могут повторятся(в смысле их вероятность)
+    */
+    CodeTree(const CodeNode<T>* nodes, size_t size);
     CodeTree(const CodeTree&) = delete;
     CodeTree(CodeTree&&) = delete;
     virtual ~CodeTree();
@@ -20,29 +27,26 @@ namespace codeWork
     CodeTree& operator=(const CodeTree&) = delete;
     CodeTree& operator=(CodeTree&&) = delete;
 
-    //depend on searchKey so does not work too
-    //(Anyway it it is shit so needs refactoring)
-    //I use it only for destructor so maybe 
-    //I should delete it and write all in 
-    //destructor
+    //Shit. Needs rewriting
     bool deleteNode(const T& key);
-    //It is search for binary tree, not SFC tree. 
-    //So it does not work.
-    CodeNode* searchKey(const T& key) const;
+    /*
+    Both those funcs are kinda similiar.
+    Should make common func wich goes through
+    nodes and use functor on it
+    */
+    CodeNode<T>* searchKey(const T& key) const;
     void outputCodes(std::ostream& out) const;
 
     private:
-    CodeNode* root_;
+    CodeNode<T>* root_;
 
-    //To my surprise they are not affected by
-    //searchkey issue, because they use pointers
-    //and don't compare elements
-    static CodeNode* getMin(CodeNode* const node);
-    static CodeNode* getNext(CodeNode* const node);
+    static CodeNode<T>* getMin(CodeNode<T>* const node);
+    static CodeNode<T>* getNext(CodeNode<T>* const node);
   };
 
   template <class T>
-  CodeTree<T>::CodeTree(const CodeNode* nodes, size_t size)
+  CodeTree<T>::CodeTree(const CodeNode<T>* nodes, size_t size):
+    root_(nullptr)
   {
     //insert Shannon-Fano algorithm
   }
@@ -145,21 +149,18 @@ namespace codeWork
     return true;
   }
   template <class T>
-  CodeNode* CodeTree<T>::searchKey(const T& key) const
+  CodeNode<T>* CodeTree<T>::searchKey(const T& key) const
   {
-    CodeNode* current = root_;
-    while (current && (current->key_ != key))
+    CodeNode* current = getMin(root_);
+    while (current)
     {
-      if (current->key_ < key)
+      if (current->key == key)
       {
-        current = current->right_;
+        return current;
       }
-      else
-      {
-        current = current->left_;
-      }
+      current = getNext(current);
     }
-    return current;
+    return nullptr;
   }
   template <class T>
   void CodeTree<T>::outputCodes(std::ostream& out) const
@@ -172,7 +173,7 @@ namespace codeWork
     }
   }
   template <class T>
-  CodeNode* CodeTree<T>::getMin(CodeNode* const node)
+  CodeNode<T>* CodeTree<T>::getMin(CodeNode<T>* const node)
   {
     CodeNode* current = nullptr;
     if (node)
@@ -186,7 +187,7 @@ namespace codeWork
     return current;
   }
   template <class T>
-  CodeNode* CodeTree<T>::getNext(CodeNode* const node)
+  CodeNode<T>* CodeTree<T>::getNext(CodeNode<T>* const node)
   {
     if (node->right_)
     {
