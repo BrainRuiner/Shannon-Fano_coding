@@ -5,22 +5,10 @@
 
 namespace utl
 {
-  struct Node
-  {
-    char symbol = 0;
-    size_t quantity = 0;
-    std::string code = "";
-  };
-  Node* getNode(Node*& set, size_t& size, const std::string& src);
-
-  template< class T, class Comp >
-  T* quickSort(T* arr, size_t size, Comp comp);
-  template< class T, class Comp >
-  T* quickSort(T* arr, size_t start, size_t end, const Comp& comp);
-  template< class T >
-  void swap(T& a, T& b);
-  template< class T >
-  T* copyElements(T* dest, const T* src, size_t size);
+  template< class T, class Comp > T* quickSort(T* arr, size_t size, Comp comp);
+  template< class T, class Comp > T* quickSort(T* arr, size_t start, size_t end, const Comp& comp);
+  template< class T > void swap(T& a, T& b);
+  template< class T > T* copyElements(T* dest, const T* src, size_t size);
 }
 
 template< class T, class Comp >

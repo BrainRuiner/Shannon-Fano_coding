@@ -48,7 +48,7 @@ namespace codeWork
   CodeTree<T>::CodeTree(const CodeNode<T>* nodes, size_t size):
     root_(nullptr)
   {
-    //insert Shannon-Fano algorithm
+
   }
   template <class T>
   CodeTree<T>::~CodeTree()

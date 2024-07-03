@@ -10,7 +10,7 @@ namespace codeWork
   struct CodeNode
   {
     T key;
-    size_t quantity = 0;
+    size_t count = 0;
     std::string code = "";
 
     CodeNode* left;
