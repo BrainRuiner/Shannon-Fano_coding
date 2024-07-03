@@ -2,13 +2,15 @@
 #define CODE_TREE_HPP
 
 #include <ostream>
+#include <exception>
 #include "CodeNode.hpp"
+#include "../utils/utils.hpp"
 
 namespace codeWork
 {
   //Should rename to SFCTree probably
   template <class T>
-  class CodeTree
+  class SFCTree
   {
     public:
     //Copies the node's data
@@ -19,13 +21,13 @@ namespace codeWork
     учитывая что оно создается на данных которые
     могут повторятся(в смысле их вероятность)
     */
-    CodeTree(const CodeNode<T>* nodes, size_t size);
-    CodeTree(const CodeTree&) = delete;
-    CodeTree(CodeTree&&) = delete;
-    virtual ~CodeTree();
+    SFCTree(const CodeNode<T>* nodes, size_t size);
+    SFCTree(const SFCTree&) = delete;
+    SFCTree(SFCTree&&) = delete;
+    virtual ~SFCTree();
 
-    CodeTree& operator=(const CodeTree&) = delete;
-    CodeTree& operator=(CodeTree&&) = delete;
+    SFCTree& operator=(const SFCTree&) = delete;
+    SFCTree& operator=(SFCTree&&) = delete;
 
     //Shit. Needs rewriting
     bool deleteNode(const T& key);
@@ -40,18 +42,46 @@ namespace codeWork
     private:
     CodeNode<T>* root_;
 
-    static CodeNode<T>* getMin(CodeNode<T>* const node);
-    static CodeNode<T>* getNext(CodeNode<T>* const node);
+    size_t findDivisionIndex(const CodeNode<T>* nodes, size_t size) const;
+    static CodeNode<T>* getMin(const CodeNode<T>* node);
+    static CodeNode<T>* getNext(const CodeNode<T>* node);
   };
 
   template <class T>
-  CodeTree<T>::CodeTree(const CodeNode<T>* nodes, size_t size):
+  SFCTree<T>::SFCTree(const CodeNode<T>* nodes, size_t size):
     root_(nullptr)
   {
+    /*
+      1. Отсортировать звенья
+      2. найти место разреза
+      3. разрезать
+      4. 2 и 3 пока не будет по 1 звену
+      5. паралельно заполнять коды
+    */
+    CodeNode<T>* workNodes = nullptr;
+    try
+    {
+      workNodes = new CodeNode<T>[size]{};
+      utils::copyElements(workNodes, nodes, size);
+      utils::quickSort(workNodes, size, [](const CodeNode<T>& a, const CodeNode<T>& b)
+        {
+          return a.frequency > b.frequency;
+        });
+
+    }
+    catch (const std::bad_alloc&)
+    {
+      throw std::logic_error("<BAD_MEMORY>");
+    }
+    catch (...)
+    {
+      throw;
+    }
+
 
   }
   template <class T>
-  CodeTree<T>::~CodeTree()
+  SFCTree<T>::~SFCTree()
   {
     while (root_)
     {
@@ -59,7 +89,7 @@ namespace codeWork
     }
   }
   template <class T>
-  bool CodeTree<T>::deleteNode(const T& key)
+  bool SFCTree<T>::deleteNode(const T& key)
   {
     CodeNode* toTermination = searchNodeIterative(key);
     if (!toTermination)
@@ -149,7 +179,7 @@ namespace codeWork
     return true;
   }
   template <class T>
-  CodeNode<T>* CodeTree<T>::searchKey(const T& key) const
+  CodeNode<T>* SFCTree<T>::searchKey(const T& key) const
   {
     CodeNode* current = getMin(root_);
     while (current)
@@ -163,7 +193,7 @@ namespace codeWork
     return nullptr;
   }
   template <class T>
-  void CodeTree<T>::outputCodes(std::ostream& out) const
+  void SFCTree<T>::outputCodes(std::ostream& out) const
   {
     CodeNode* current = getMin(root_);
     while (current)
@@ -172,8 +202,25 @@ namespace codeWork
       current = getNext(current);
     }
   }
+
   template <class T>
-  CodeNode<T>* CodeTree<T>::getMin(CodeNode<T>* const node)
+  size_t SFCTree<T>::findDivisionIndex(const CodeNode<T>* nodes, size_t size) const
+  {
+    double freqSum = 0.0;
+    double lastFreqSum = 0.0;
+    for (size_t i = 0; i < size; ++i)
+    {
+      freqSum += nodes[i]->frequency;
+      if (freqSum >= 0.5)
+      {
+        return i - (0.5 - lastFreqSum < freqSum - 0.5);
+      }
+      lastFreqSum = freqSum;
+    }
+    throw std::logic_error("<FREQUENCYS ERROR>");
+  }
+  template <class T>
+  CodeNode<T>* SFCTree<T>::getMin(const CodeNode<T>* node)
   {
     CodeNode* current = nullptr;
     if (node)
@@ -187,7 +234,7 @@ namespace codeWork
     return current;
   }
   template <class T>
-  CodeNode<T>* CodeTree<T>::getNext(CodeNode<T>* const node)
+  CodeNode<T>* SFCTree<T>::getNext(const CodeNode<T>* node)
   {
     if (node->right_)
     {

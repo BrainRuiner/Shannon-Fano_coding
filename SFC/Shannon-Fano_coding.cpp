@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include "utils.hpp"
+#include "../utils/utils.hpp"
 
 void sfc::SFCoding::readCommands(std::istream& in, std::ostream& out)
 {
