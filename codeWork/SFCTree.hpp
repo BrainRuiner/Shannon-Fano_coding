@@ -8,7 +8,6 @@
 
 namespace codeWork
 {
-  //Should rename to SFCTree probably
   template <class T>
   class SFCTree
   {

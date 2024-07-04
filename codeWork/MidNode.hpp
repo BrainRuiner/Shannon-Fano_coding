@@ -1,12 +1,13 @@
 #ifndef MID_NODE_HPP
 #define MID_NODE_HPP
 
+#include "../utils/Node.hpp"
 #include "CodeNode.hpp"
 
 namespace codeWork
 {
   template <class T>
-  struct MidNode
+  struct MidNode: public utils::Node
   {
     CodeNode<T>* nodes;
     size_t size;
@@ -19,9 +20,7 @@ namespace codeWork
       CodeNode<T>* l = nullptr, CodeNode<T>* r = nullptr, CodeNode<T>* p = nullptr):
       nodes(n),
       size(s),
-      left(l),
-      right(r),
-      parent(p)
+      Node(l, r, p)
     {}
   };
   template <class T>
