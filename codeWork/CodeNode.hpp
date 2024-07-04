@@ -18,7 +18,7 @@ namespace codeWork
     CodeNode* right;
     CodeNode* parent;
 
-    CodeNode(const T& k, size_t q = 0, double f = 0, const std::string& c = "",
+    CodeNode(const T& k = 0, size_t q = 0, double f = 0, const std::string& c = "",
       CodeNode* l = nullptr, CodeNode* r = nullptr, CodeNode* p = nullptr):
       key(k),
       quantity(q),
@@ -32,7 +32,7 @@ namespace codeWork
   template <class T>
   std::ostream& operator<<(std::ostream& out, const CodeNode<T>& node)
   {
-    return out << node.key << " : " << node.quantity << " : " << node.code;
+    return out << node.key << " : " << node.quantity << " : " << node.frequency << node.code;
   }
 }
 

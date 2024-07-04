@@ -1,23 +1,31 @@
 #include <iostream>
-#include "utils/quickSort.hpp"
-
-void print(int* arr, int size)
-{
-  for (int i = 0; i < size; ++i)
-  {
-    std::cout << arr[i] << ' ';
-  }
-  std::cout << '\n';
-}
+#include "codeWork/CodeNode.hpp"
+#include "codeWork/SFCTree.hpp"
+#include "codeWork/MidNode.hpp"
 
 int main()
 {
-  int arr[10] = { 6,3,8,2,8,1,7,3,6,0 };
-  print(arr, 10);
-  utils::quickSort(arr, 10, [](int a, int b)
+  using namespace codeWork;
+  CodeNode<char>* nodes = new CodeNode<char>[5]
     {
-      return a < b;
-    });
-  print(arr, 10);
+      { 'a', 15 },
+      { 'b', 7 },
+      { 'c', 6 },
+      { 'd', 6 },
+      { 'e', 5 }
+    };
+  size_t size = 5;
+  size_t count = 0;
+  for (size_t i = 0; i < size; ++i)
+  {
+    count += nodes[i].quantity;
+  }
+  for (size_t i = 0; i < size; ++i)
+  {
+    nodes[i].frequency = static_cast< double >(nodes[i].quantity) / count;
+    std::cout << nodes[i] << '\n';
+  }
+  SFCTree<char> t(nodes, size);
+
   return 0;
 }

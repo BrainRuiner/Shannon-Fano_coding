@@ -4,7 +4,7 @@
 #include <ostream>
 #include <exception>
 #include "CodeNode.hpp"
-#include "../utils/utils.hpp"
+#include "../utils/quickSort.hpp"
 
 namespace codeWork
 {
@@ -24,12 +24,16 @@ namespace codeWork
     SFCTree(const CodeNode<T>* nodes, size_t size);
     SFCTree(const SFCTree&) = delete;
     SFCTree(SFCTree&&) = delete;
+    //сделать обход и удалять элеметны общей 
+    //функцией с поиском и выводом
     virtual ~SFCTree();
 
     SFCTree& operator=(const SFCTree&) = delete;
     SFCTree& operator=(SFCTree&&) = delete;
 
     //Shit. Needs rewriting
+    //Можно удалить а в деструктор вставить то что
+    //я написал выше
     bool deleteNode(const T& key);
     /*
     Both those funcs are kinda similiar.
@@ -43,8 +47,8 @@ namespace codeWork
     CodeNode<T>* root_;
 
     size_t findDivisionIndex(const CodeNode<T>* nodes, size_t size) const;
-    static CodeNode<T>* getMin(const CodeNode<T>* node);
-    static CodeNode<T>* getNext(const CodeNode<T>* node);
+    static CodeNode<T>* getMin(CodeNode<T>* node);
+    static CodeNode<T>* getNext(CodeNode<T>* node);
   };
 
   template <class T>
@@ -67,110 +71,110 @@ namespace codeWork
         {
           return a.frequency > b.frequency;
         });
+      size_t divisionIndex = findDivisionIndex(workNodes, size);
+
 
     }
     catch (const std::bad_alloc&)
     {
-      throw std::logic_error("<BAD_MEMORY>");
+      throw std::logic_error("<BAD SIZE>");
     }
     catch (...)
     {
       throw;
     }
-
-
   }
   template <class T>
   SFCTree<T>::~SFCTree()
   {
     while (root_)
     {
-      deleteNode(root_->key_);
+      deleteNode(root_->key);
     }
   }
   template <class T>
   bool SFCTree<T>::deleteNode(const T& key)
   {
-    CodeNode* toTermination = searchNodeIterative(key);
+    CodeNode<T>* toTermination = searchKey(key);
     if (!toTermination)
     {
       return false;
     }
 
-    CodeNode* parent = toTermination->p_;
-    if (!parent && (!toTermination->left_ && !toTermination->right_))
+    CodeNode<T>* parent = toTermination->parent;
+    if (!parent && (!toTermination->left && !toTermination->right))
     {
       root_ = nullptr;
     }
-    else if (!toTermination->left_ && !toTermination->right_)
+    else if (!toTermination->left && !toTermination->right)
     {
-      if (parent->left_ == toTermination)
+      if (parent->left == toTermination)
       {
-        parent->left_ = nullptr;
+        parent->left = nullptr;
       }
-      if (parent->right_ == toTermination)
+      if (parent->right == toTermination)
       {
-        parent->right_ = nullptr;
+        parent->right = nullptr;
       }
     }
-    else if (!parent && (!toTermination->left_ || !toTermination->right_))
+    else if (!parent && (!toTermination->left || !toTermination->right))
     {
-      if (toTermination->left_)
+      if (toTermination->left)
       {
-        root_ = toTermination->left_;
-        toTermination->left_->p_ = nullptr;
+        root_ = toTermination->left;
+        toTermination->left->parent = nullptr;
       }
       else
       {
-        root_ = toTermination->right_;
-        toTermination->right_->p_ = nullptr;
+        root_ = toTermination->right;
+        toTermination->right->parent = nullptr;
       }
     }
-    else if (!toTermination->left_ || !toTermination->right_)
+    else if (!toTermination->left || !toTermination->right)
     {
-      if (toTermination->left_)
+      if (toTermination->left)
       {
-        if (parent->left_ == toTermination)
+        if (parent->left == toTermination)
         {
-          parent->left_ = toTermination->left_;
+          parent->left = toTermination->left;
         }
         else
         {
-          parent->right_ = toTermination->left_;
+          parent->right = toTermination->left;
         }
-        toTermination->left_->p_ = parent;
+        toTermination->left->parent = parent;
       }
       else
       {
-        if (parent->left_ == toTermination)
+        if (parent->left == toTermination)
         {
-          parent->left_ = toTermination->right_;
+          parent->left = toTermination->right;
         }
         else
         {
-          parent->right_ = toTermination->right_;
+          parent->right = toTermination->right;
         }
-        toTermination->right_->p_ = parent;
+        toTermination->right->parent = parent;
       }
     }
     else
     {
-      CodeNode* successor = getNext(toTermination);
-      toTermination->key_ = successor->key_;
-      if (successor->p_->left_ == successor)
+      CodeNode<T>* successor = getNext(toTermination);
+      toTermination->key = successor->key;
+      if (successor->parent->left == successor)
       {
-        successor->p_->left_ = successor->right_;
-        if (successor->right_)
+        successor->parent->left = successor->right;
+        if (successor->right)
         {
-          successor->right_->p_ = successor->p_;
+          successor->right->parent = successor->parent;
         }
       }
       else
       {
-        successor->p_->right_ = successor->right_;
-        if (successor->right_)
+        successor->parent->right = successor->right;
+        if (successor->right)
         {
-          successor->right_->p_ = successor->p_;
+          successor->right->parent = successor->parent;
         }
       }
       toTermination = successor;
@@ -181,7 +185,7 @@ namespace codeWork
   template <class T>
   CodeNode<T>* SFCTree<T>::searchKey(const T& key) const
   {
-    CodeNode* current = getMin(root_);
+    CodeNode<T>* current = getMin(root_);
     while (current)
     {
       if (current->key == key)
@@ -195,7 +199,7 @@ namespace codeWork
   template <class T>
   void SFCTree<T>::outputCodes(std::ostream& out) const
   {
-    CodeNode* current = getMin(root_);
+    CodeNode<T>* current = getMin(root_);
     while (current)
     {
       out << *current;
@@ -203,6 +207,7 @@ namespace codeWork
     }
   }
 
+  //Finds index AFTER which division is made
   template <class T>
   size_t SFCTree<T>::findDivisionIndex(const CodeNode<T>* nodes, size_t size) const
   {
@@ -210,7 +215,7 @@ namespace codeWork
     double lastFreqSum = 0.0;
     for (size_t i = 0; i < size; ++i)
     {
-      freqSum += nodes[i]->frequency;
+      freqSum += nodes[i].frequency;
       if (freqSum >= 0.5)
       {
         return i - (0.5 - lastFreqSum < freqSum - 0.5);
@@ -220,32 +225,32 @@ namespace codeWork
     throw std::logic_error("<FREQUENCYS ERROR>");
   }
   template <class T>
-  CodeNode<T>* SFCTree<T>::getMin(const CodeNode<T>* node)
+  CodeNode<T>* SFCTree<T>::getMin(CodeNode<T>* node)
   {
-    CodeNode* current = nullptr;
+    CodeNode<T>* current = nullptr;
     if (node)
     {
       current = node;
-      while (current->left_)
+      while (current->left)
       {
-        current = current->left_;
+        current = current->left;
       }
     }
     return current;
   }
   template <class T>
-  CodeNode<T>* SFCTree<T>::getNext(const CodeNode<T>* node)
+  CodeNode<T>* SFCTree<T>::getNext(CodeNode<T>* node)
   {
-    if (node->right_)
+    if (node->right)
     {
-      return getMin(node->right_);
+      return getMin(node->right);
     }
-    CodeNode* current = node;
-    CodeNode* curParent = node->p_;
-    while (curParent && (current == curParent->right_))
+    CodeNode<T>* current = node;
+    CodeNode<T>* curParent = node->parent;
+    while (curParent && (current == curParent->right))
     {
       current = curParent;
-      curParent = curParent->p_;
+      curParent = curParent->parent;
     }
     return curParent;
   }
