@@ -6,14 +6,14 @@
 
 namespace utils
 {
-  template <class T, class Comp>
+  template < class T, class Comp >
   T* quickSort(T* arr, size_t size, Comp comp);
-  template <class T, class Comp>
+  template < class T, class Comp >
   T* quickSort(T* arr, size_t start, size_t end, const Comp& comp);
-  template <class T, class Comp>
+  template < class T, class Comp >
   size_t partition(T* arr, size_t start, size_t end, Comp comp);
 
-  template <class T, class Comp>
+  template < class T, class Comp >
   T* quickSort(T* arr, size_t size, Comp comp)
   {
     T* tmpArr = nullptr;
@@ -36,7 +36,7 @@ namespace utils
       throw;
     }
   }
-  template <class T, class Comp>
+  template < class T, class Comp >
   T* quickSort(T* arr, size_t start, size_t end, const Comp& comp)
   {
     if (start < end)
@@ -47,7 +47,7 @@ namespace utils
     }
     return arr;
   }
-  template <class T, class Comp>
+  template < class T, class Comp >
   size_t partition(T* arr, size_t start, size_t end, Comp comp)
   {
     T pivot = arr[(start + end) / 2];

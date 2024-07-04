@@ -5,7 +5,7 @@
 
 namespace utils
 {
-  template <class T>
+  template < class T >
   struct Node
   {
     T key;
@@ -21,10 +21,21 @@ namespace utils
       parent(p)
     {}
   };
-  template <class T>
-  std::ostream& operator<<(std::ostream& out, const Node<T>& node)
+  template < class T >
+  std::ostream& operator<<(std::ostream& out, const Node< T >& node)
   {
     return out << node.key;
+  }
+  //Connects nodes like they are list
+  //DOES NOT COPY
+  template < class T >
+  Node< T >** makeIntoList(Node< T >** nodes, size_t size)
+  {
+    for (size_t i = 0; i < size - 1; ++i)
+    {
+      nodes[i]->right = nodes[i + 1];
+    }
+    return nodes;
   }
 }
 

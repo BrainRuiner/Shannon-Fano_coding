@@ -6,7 +6,10 @@
 int main()
 {
   using namespace codeWork;
-  CodeNode<char>* nodes = new CodeNode<char>[5]
+  using namespace utils;
+
+  size_t size = 5;
+  CodeNode< char >* nodes = new CodeNode< char >[size]
     {
       { 'a', 15 },
       { 'b', 7 },
@@ -14,18 +17,27 @@ int main()
       { 'd', 6 },
       { 'e', 5 }
     };
-  size_t size = 5;
-  size_t count = 0;
+
+  calcFreq(nodes, size);
+  print(std::cout, nodes, size);
+  std::cout << "===================================\n";
+  Node< char >** n = new Node< char >*[size];
   for (size_t i = 0; i < size; ++i)
   {
-    count += nodes[i].quantity;
+    n[i] = &nodes[i];
   }
-  for (size_t i = 0; i < size; ++i)
+  auto list = makeIntoList(n, size);
+  print(std::cout, nodes, size);
+
+
+  CodeNode< char >* curr = static_cast< CodeNode< char >* >(*list);
+  while (curr->right)
   {
-    nodes[i].frequency = static_cast< double >(nodes[i].quantity) / count;
-    std::cout << nodes[i] << '\n';
+    std::cout << *curr << '\n';
+    curr = curr->right;
   }
-  SFCTree<char> t(nodes, size);
+  std::cout << '\n';
+  //SFCTree< char > t(nodes, size);
 
   return 0;
 }

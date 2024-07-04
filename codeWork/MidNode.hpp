@@ -6,15 +6,15 @@
 
 namespace codeWork
 {
-  template <class T>
-  struct MidNode: public utils::Node<T>
+  template < class T >
+  struct MidNode: public utils::Node< T >
   {
-    CodeNode<T>* nodes;
+    CodeNode< T >* nodes;
     size_t size;
 
-    MidNode(CodeNode<T>* n, size_t s, const T& k = 0,
-      CodeNode<T>* l = nullptr, CodeNode<T>* r = nullptr, CodeNode<T>* p = nullptr):
-      utils::Node<T>::Node(k, l, r, p),
+    MidNode(CodeNode< T >* n, size_t s, const T& k = 0,
+      CodeNode< T >* l = nullptr, CodeNode< T >* r = nullptr, CodeNode< T >* p = nullptr):
+      utils::Node< T >::Node(k, l, r, p),
       nodes(n),
       size(s)
     {}
@@ -25,8 +25,8 @@ namespace codeWork
       nodes = nullptr;
     }
   };
-  template <class T>
-  std::ostream& operator<<(std::ostream& out, const MidNode<T>& node)
+  template < class T >
+  std::ostream& operator<<(std::ostream& out, const MidNode< T >& node)
   {
     for (size_t i = 0; i < node.size; ++i)
     {
