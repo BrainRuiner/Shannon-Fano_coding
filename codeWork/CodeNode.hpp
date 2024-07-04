@@ -8,20 +8,18 @@
 namespace codeWork
 {
   template <class T>
-  struct CodeNode: public utils::Node
+  struct CodeNode: public utils::Node<T>
   {
-    T key;
-    size_t quantity = 0;
-    double frequency = 0;
-    std::string code = "";
+    size_t quantity;
+    double frequency;
+    std::string code;
 
     CodeNode(const T& k = 0, size_t q = 0, double f = 0, const std::string& c = "",
       CodeNode* l = nullptr, CodeNode* r = nullptr, CodeNode* p = nullptr):
-      key(k),
+      utils::Node<T>::Node(k, l, r, p),
       quantity(q),
       frequency(f),
-      code(c),
-      Node(l, r, p)
+      code(c)
     {}
   };
   template <class T>

@@ -3,14 +3,18 @@
 
 #include <ostream>
 #include <exception>
-#include "CodeNode.hpp"
 #include "../utils/quickSort.hpp"
+#include "../utils/Node.hpp"
+#include "MidNode.hpp"
+#include "CodeNode.hpp"
+
 
 namespace codeWork
 {
   template <class T>
   class SFCTree
   {
+    using Node = utils::Node<T>;
     public:
     //Copies the node's data
     /*
@@ -29,25 +33,20 @@ namespace codeWork
 
     SFCTree& operator=(const SFCTree&) = delete;
     SFCTree& operator=(SFCTree&&) = delete;
-
-    //Shit. Needs rewriting
-    //Можно удалить а в деструктор вставить то что
-    //я написал выше
-    bool deleteNode(const T& key);
     /*
     Both those funcs are kinda similiar.
     Should make common func wich goes through
     nodes and use functor on it
     */
-    CodeNode<T>* searchKey(const T& key) const;
+    Node* searchByKey(const T& key) const;
     void outputCodes(std::ostream& out) const;
 
     private:
-    CodeNode<T>* root_;
+    Node* root_;
 
     size_t findDivisionIndex(const CodeNode<T>* nodes, size_t size) const;
-    static CodeNode<T>* getMin(CodeNode<T>* node);
-    static CodeNode<T>* getNext(CodeNode<T>* node);
+    static Node* getMin(Node* node);
+    static Node* getNext(Node* node);
   };
 
   template <class T>
@@ -86,105 +85,17 @@ namespace codeWork
   template <class T>
   SFCTree<T>::~SFCTree()
   {
-    while (root_)
+    Node* current = getMin(root_);
+    while (current)
     {
-      deleteNode(root_->key);
+      delete current;
+      current = getNext(current);
     }
   }
   template <class T>
-  bool SFCTree<T>::deleteNode(const T& key)
+  SFCTree<T>::Node* SFCTree<T>::searchByKey(const T& key) const
   {
-    CodeNode<T>* toTermination = searchKey(key);
-    if (!toTermination)
-    {
-      return false;
-    }
-
-    CodeNode<T>* parent = toTermination->parent;
-    if (!parent && (!toTermination->left && !toTermination->right))
-    {
-      root_ = nullptr;
-    }
-    else if (!toTermination->left && !toTermination->right)
-    {
-      if (parent->left == toTermination)
-      {
-        parent->left = nullptr;
-      }
-      if (parent->right == toTermination)
-      {
-        parent->right = nullptr;
-      }
-    }
-    else if (!parent && (!toTermination->left || !toTermination->right))
-    {
-      if (toTermination->left)
-      {
-        root_ = toTermination->left;
-        toTermination->left->parent = nullptr;
-      }
-      else
-      {
-        root_ = toTermination->right;
-        toTermination->right->parent = nullptr;
-      }
-    }
-    else if (!toTermination->left || !toTermination->right)
-    {
-      if (toTermination->left)
-      {
-        if (parent->left == toTermination)
-        {
-          parent->left = toTermination->left;
-        }
-        else
-        {
-          parent->right = toTermination->left;
-        }
-        toTermination->left->parent = parent;
-      }
-      else
-      {
-        if (parent->left == toTermination)
-        {
-          parent->left = toTermination->right;
-        }
-        else
-        {
-          parent->right = toTermination->right;
-        }
-        toTermination->right->parent = parent;
-      }
-    }
-    else
-    {
-      CodeNode<T>* successor = getNext(toTermination);
-      toTermination->key = successor->key;
-      if (successor->parent->left == successor)
-      {
-        successor->parent->left = successor->right;
-        if (successor->right)
-        {
-          successor->right->parent = successor->parent;
-        }
-      }
-      else
-      {
-        successor->parent->right = successor->right;
-        if (successor->right)
-        {
-          successor->right->parent = successor->parent;
-        }
-      }
-      toTermination = successor;
-    }
-    delete toTermination;
-    return true;
-  }
-  template <class T>
-  CodeNode<T>* SFCTree<T>::searchKey(const T& key) const
-  {
-    CodeNode<T>* current = getMin(root_);
+    Node* current = getMin(root_);
     while (current)
     {
       if (current->key == key)
@@ -198,7 +109,7 @@ namespace codeWork
   template <class T>
   void SFCTree<T>::outputCodes(std::ostream& out) const
   {
-    CodeNode<T>* current = getMin(root_);
+    Node* current = getMin(root_);
     while (current)
     {
       out << *current;
@@ -224,9 +135,9 @@ namespace codeWork
     throw std::logic_error("<FREQUENCYS ERROR>");
   }
   template <class T>
-  CodeNode<T>* SFCTree<T>::getMin(CodeNode<T>* node)
+  SFCTree<T>::Node* SFCTree<T>::getMin(Node* node)
   {
-    CodeNode<T>* current = nullptr;
+    Node* current = nullptr;
     if (node)
     {
       current = node;
@@ -238,14 +149,14 @@ namespace codeWork
     return current;
   }
   template <class T>
-  CodeNode<T>* SFCTree<T>::getNext(CodeNode<T>* node)
+  SFCTree<T>::Node* SFCTree<T>::getNext(Node* node)
   {
     if (node->right)
     {
       return getMin(node->right);
     }
-    CodeNode<T>* current = node;
-    CodeNode<T>* curParent = node->parent;
+    Node* current = node;
+    Node* curParent = node->parent;
     while (curParent && (current == curParent->right))
     {
       current = curParent;

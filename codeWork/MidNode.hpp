@@ -7,21 +7,23 @@
 namespace codeWork
 {
   template <class T>
-  struct MidNode: public utils::Node
+  struct MidNode: public utils::Node<T>
   {
     CodeNode<T>* nodes;
     size_t size;
 
-    CodeNode<T>* left;
-    CodeNode<T>* right;
-    CodeNode<T>* parent;
-
-    MidNode(CodeNode<T>* n, size_t s,
+    MidNode(CodeNode<T>* n, size_t s, const T& k = 0,
       CodeNode<T>* l = nullptr, CodeNode<T>* r = nullptr, CodeNode<T>* p = nullptr):
+      utils::Node<T>::Node(k, l, r, p),
       nodes(n),
-      size(s),
-      Node(l, r, p)
+      size(s)
     {}
+
+    void clearNode()
+    {
+      size = 0;
+      nodes = nullptr;
+    }
   };
   template <class T>
   std::ostream& operator<<(std::ostream& out, const MidNode<T>& node)
