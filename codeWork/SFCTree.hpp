@@ -47,7 +47,7 @@ namespace codeWork
     private:
     CodeNode* root_;
 
-    size_t findDivisionIndex(const CodeNode* nodes, size_t size) const;
+    CodeNode* divide(CodeNode* list) const;
     void makeTree(CodeNode* node);
     static CodeNode* getMin(CodeNode* node);
     static CodeNode* getNext(CodeNode* node);
@@ -100,7 +100,7 @@ namespace codeWork
     CodeNode* current = getMin(root_);
     while (current)
     {
-      if (current->getKey() == key)
+      if (current->key == key)
       {
         return current->code;
       }
@@ -113,7 +113,7 @@ namespace codeWork
     CodeNode* current = getMin(root_);
     while (current)
     {
-      if (current->getKey() != '\0')
+      if (current->key != '\0')
       {
         out << *current << '\n';
       }
@@ -121,31 +121,39 @@ namespace codeWork
     }
   }
 
-  //Finds index AFTER which division is made
-  size_t SFCTree::findDivisionIndex(const CodeNode* nodes, size_t size) const
+  /*
+    При рекурсии нужно заново расставлять частоты.
+    Задумайся
+  */
+  CodeNode* SFCTree::divide(CodeNode* list) const
   {
-    double freqSum = 0.0;
+    CodeNode* current = list;
+    double freqSum = current->frequency;
     double lastFreqSum = 0.0;
-    for (size_t i = 0; i < size; ++i)
+    while (current->right)
     {
-      freqSum += nodes[i].frequency;
+      freqSum += current->right->frequency;
       if (freqSum >= 0.5)
       {
-        return i - (0.5 - lastFreqSum < freqSum - 0.5);
+        if (0.5 - lastFreqSum < freqSum - 0.5)
+        {
+          CodeNode* newList = current->right;
+          current->right = nullptr;
+        }
       }
       lastFreqSum = freqSum;
     }
     throw std::logic_error("<FREQUENCYS ERROR>");
   }
-  // void SFCTree::makeTree(CodeNode* node)
-  // {
-  //   if (!node)
-  //   {
-  //     return;
-  //   }
+  void SFCTree::makeTree(CodeNode* node)
+  {
+    if (!node)
+    {
+      return;
+    }
 
-  //   size_t divIndex = findDivisionIndex(node)
-  // }
+    size_t divIndex = findDivisionIndex(node)
+  }
   CodeNode* SFCTree::getMin(CodeNode* node)
   {
     CodeNode* current = nullptr;

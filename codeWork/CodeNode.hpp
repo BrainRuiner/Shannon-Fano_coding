@@ -27,11 +27,6 @@ namespace codeWork
       right(r),
       parent(p)
     {}
-
-    char getKey()
-    {
-      return key;
-    }
   };
   std::ostream& operator<<(std::ostream& out, const CodeNode& node)
   {
