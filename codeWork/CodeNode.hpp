@@ -7,28 +7,30 @@
 
 namespace codeWork
 {
-  template < class T >
-  struct CodeNode: public utils::Node< T >
+  struct CodeNode: public utils::Node
   {
+    char key;
     size_t quantity;
     double frequency;
-    std::string code;
 
-    CodeNode(const T& k = 0, size_t q = 0, double f = 0, const std::string& c = "",
+    CodeNode(char k = 0, size_t q = 0, double f = 0, const std::string& c = "",
       CodeNode* l = nullptr, CodeNode* r = nullptr, CodeNode* p = nullptr):
-      utils::Node< T >::Node(k, l, r, p),
+      Node::Node(c, l, r, p),
+      key(k),
       quantity(q),
-      frequency(f),
-      code(c)
+      frequency(f)
     {}
+
+    char getKey()
+    {
+      return key;
+    }
   };
-  template < class T >
-  std::ostream& operator<<(std::ostream& out, const CodeNode< T >& node)
+  std::ostream& operator<<(std::ostream& out, const CodeNode& node)
   {
     return out << node.key << " : " << node.quantity << " : " << node.frequency << node.code;
   }
-  template < class T >
-  CodeNode< T >* calcFreq(CodeNode< T >* nodes, size_t size)
+  CodeNode* calcFreq(CodeNode* nodes, size_t size)
   {
     size_t count = 0;
     for (size_t i = 0; i < size; ++i)
@@ -41,8 +43,7 @@ namespace codeWork
     }
     return nodes;
   }
-  template < class T >
-  void print(std::ostream& out, const CodeNode< T >* nodes, size_t size)
+  void print(std::ostream& out, const CodeNode* nodes, size_t size)
   {
     for (size_t i = 0; i < size; ++i)
     {

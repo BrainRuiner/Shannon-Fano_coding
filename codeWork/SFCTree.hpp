@@ -5,7 +5,6 @@
 #include <exception>
 #include "../utils/quickSort.hpp"
 #include "../utils/Node.hpp"
-#include "MidNode.hpp"
 #include "CodeNode.hpp"
 
 /*
@@ -18,10 +17,9 @@
 
 namespace codeWork
 {
-  template < class T >
   class SFCTree
   {
-    using Node = utils::Node< T >;
+    using Node = utils::Node;
     public:
     //Copies the node's data
     /*
@@ -31,7 +29,7 @@ namespace codeWork
     учитывая что оно создается на данных которые
     могут повторятся(в смысле их вероятность)
     */
-    SFCTree(const CodeNode< T >* nodes, size_t size);
+    SFCTree(const CodeNode* nodes, size_t size);
     SFCTree(const SFCTree&) = delete;
     SFCTree(SFCTree&&) = delete;
     //сделать обход и удалять элеметны общей 
@@ -45,19 +43,19 @@ namespace codeWork
     Should make common func wich goes through
     nodes and use functor on it
     */
-    Node* searchByKey(const T& key) const;
+    Node* searchByKey(char key) const;
     void outputCodes(std::ostream& out) const;
 
     private:
     Node* root_;
 
-    size_t findDivisionIndex(const CodeNode< T >* nodes, size_t size) const;
+    size_t findDivisionIndex(const CodeNode* nodes, size_t size) const;
+    void makeTree(Node* node);
     static Node* getMin(Node* node);
     static Node* getNext(Node* node);
   };
 
-  template < class T >
-  SFCTree< T >::SFCTree(const CodeNode< T >* nodes, size_t size):
+  SFCTree::SFCTree(const CodeNode* nodes, size_t size):
     root_(nullptr)
   {
     /*
@@ -67,16 +65,16 @@ namespace codeWork
       4. 2 и 3 пока не будет по 1 звену
       5. паралельно заполнять коды
     */
-    CodeNode< T >* workNodes = nullptr;
+    CodeNode* workNodes = nullptr;
     try
     {
-      workNodes = new CodeNode< T >[size]{};
+      workNodes = new CodeNode[size]{};
       utils::copyElements(workNodes, nodes, size);
-      utils::quickSort(workNodes, size, [](const CodeNode< T >& a, const CodeNode< T >& b)
+      utils::quickSort(workNodes, size, [](const CodeNode& a, const CodeNode& b)
         {
           return a.frequency > b.frequency;
         });
-      Node* list = utils::makeIntoList(workNodes, size);
+      // Node* list = utils::makeIntoList(workNodes, size);
       size_t divisionIndex = findDivisionIndex(workNodes, size);
 
 
@@ -90,8 +88,7 @@ namespace codeWork
       throw;
     }
   }
-  template < class T >
-  SFCTree< T >::~SFCTree()
+  SFCTree::~SFCTree()
   {
     Node* current = getMin(root_);
     while (current)
@@ -100,13 +97,12 @@ namespace codeWork
       current = getNext(current);
     }
   }
-  template < class T >
-  typename SFCTree< T >::Node* SFCTree< T >::searchByKey(const T& key) const
+  typename SFCTree::Node* SFCTree::searchByKey(char key) const
   {
     Node* current = getMin(root_);
     while (current)
     {
-      if (current->key == key)
+      if (current->getKey() == key)
       {
         return current;
       }
@@ -114,20 +110,21 @@ namespace codeWork
     }
     return nullptr;
   }
-  template < class T >
-  void SFCTree< T >::outputCodes(std::ostream& out) const
+  void SFCTree::outputCodes(std::ostream& out) const
   {
     Node* current = getMin(root_);
     while (current)
     {
-      out << *current;
+      if (current->getKey() != '\0')
+      {
+        out << current->getKey() << " : " << current->getCode() << '\n';
+      }
       current = getNext(current);
     }
   }
 
   //Finds index AFTER which division is made
-  template < class T >
-  size_t SFCTree< T >::findDivisionIndex(const CodeNode< T >* nodes, size_t size) const
+  size_t SFCTree::findDivisionIndex(const CodeNode* nodes, size_t size) const
   {
     double freqSum = 0.0;
     double lastFreqSum = 0.0;
@@ -142,8 +139,17 @@ namespace codeWork
     }
     throw std::logic_error("<FREQUENCYS ERROR>");
   }
-  template < class T >
-  typename SFCTree< T >::Node* SFCTree< T >::getMin(Node* node)
+  void SFCTree::makeTree(Node* node)
+  {
+    if (!node)
+    {
+      return;
+    }
+
+    Node* root = new Node();
+
+  }
+  utils::Node* SFCTree::getMin(Node* node)
   {
     Node* current = nullptr;
     if (node)
@@ -156,8 +162,7 @@ namespace codeWork
     }
     return current;
   }
-  template < class T >
-  typename SFCTree< T >::Node* SFCTree< T >::getNext(Node* node)
+  utils::Node* SFCTree::getNext(Node* node)
   {
     if (node->right)
     {

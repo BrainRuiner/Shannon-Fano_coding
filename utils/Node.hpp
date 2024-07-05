@@ -2,34 +2,37 @@
 #define NODE_HPP
 
 #include <ostream>
+#include <string>
 
 namespace utils
 {
-  template < class T >
   struct Node
   {
-    T key;
+    std::string code;
 
     Node* left;
     Node* right;
     Node* parent;
 
-    Node(const T& k = 0, Node* l = nullptr, Node* r = nullptr, Node* p = nullptr):
-      key(k),
+    Node(const std::string& c = "", Node* l = nullptr, Node* r = nullptr, Node* p = nullptr):
+      code(c),
       left(l),
       right(r),
       parent(p)
     {}
+
+    virtual char getKey()
+    {
+      return '\0';
+    }
+    std::string getCode()
+    {
+      return code;
+    }
   };
-  template < class T >
-  std::ostream& operator<<(std::ostream& out, const Node< T >& node)
-  {
-    return out << node.key;
-  }
   //Connects nodes like they are list
   //DOES NOT COPY
-  template < class T >
-  Node< T >** makeIntoList(Node< T >** nodes, size_t size)
+  Node** makeIntoList(Node** nodes, size_t size)
   {
     for (size_t i = 0; i < size - 1; ++i)
     {
