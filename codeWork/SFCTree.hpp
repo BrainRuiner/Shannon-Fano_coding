@@ -4,7 +4,6 @@
 #include <ostream>
 #include <exception>
 #include "../utils/quickSort.hpp"
-#include "../utils/Node.hpp"
 #include "CodeNode.hpp"
 
 /*
@@ -19,7 +18,6 @@ namespace codeWork
 {
   class SFCTree
   {
-    using Node = utils::Node;
     public:
     //Copies the node's data
     /*
@@ -43,16 +41,16 @@ namespace codeWork
     Should make common func wich goes through
     nodes and use functor on it
     */
-    Node* searchByKey(char key) const;
+    std::string searchCodeByKey(char key) const;
     void outputCodes(std::ostream& out) const;
 
     private:
-    Node* root_;
+    CodeNode* root_;
 
     size_t findDivisionIndex(const CodeNode* nodes, size_t size) const;
-    void makeTree(Node* node);
-    static Node* getMin(Node* node);
-    static Node* getNext(Node* node);
+    void makeTree(CodeNode* node);
+    static CodeNode* getMin(CodeNode* node);
+    static CodeNode* getNext(CodeNode* node);
   };
 
   SFCTree::SFCTree(const CodeNode* nodes, size_t size):
@@ -90,21 +88,21 @@ namespace codeWork
   }
   SFCTree::~SFCTree()
   {
-    Node* current = getMin(root_);
+    CodeNode* current = getMin(root_);
     while (current)
     {
       delete current;
       current = getNext(current);
     }
   }
-  typename SFCTree::Node* SFCTree::searchByKey(char key) const
+  std::string SFCTree::searchCodeByKey(char key) const
   {
-    Node* current = getMin(root_);
+    CodeNode* current = getMin(root_);
     while (current)
     {
       if (current->getKey() == key)
       {
-        return current;
+        return current->code;
       }
       current = getNext(current);
     }
@@ -112,12 +110,12 @@ namespace codeWork
   }
   void SFCTree::outputCodes(std::ostream& out) const
   {
-    Node* current = getMin(root_);
+    CodeNode* current = getMin(root_);
     while (current)
     {
       if (current->getKey() != '\0')
       {
-        out << current->getKey() << " : " << current->getCode() << '\n';
+        out << *current << '\n';
       }
       current = getNext(current);
     }
@@ -139,19 +137,18 @@ namespace codeWork
     }
     throw std::logic_error("<FREQUENCYS ERROR>");
   }
-  void SFCTree::makeTree(Node* node)
-  {
-    if (!node)
-    {
-      return;
-    }
+  // void SFCTree::makeTree(CodeNode* node)
+  // {
+  //   if (!node)
+  //   {
+  //     return;
+  //   }
 
-    Node* root = new Node();
-
-  }
-  utils::Node* SFCTree::getMin(Node* node)
+  //   size_t divIndex = findDivisionIndex(node)
+  // }
+  CodeNode* SFCTree::getMin(CodeNode* node)
   {
-    Node* current = nullptr;
+    CodeNode* current = nullptr;
     if (node)
     {
       current = node;
@@ -162,14 +159,14 @@ namespace codeWork
     }
     return current;
   }
-  utils::Node* SFCTree::getNext(Node* node)
+  CodeNode* SFCTree::getNext(CodeNode* node)
   {
     if (node->right)
     {
       return getMin(node->right);
     }
-    Node* current = node;
-    Node* curParent = node->parent;
+    CodeNode* current = node;
+    CodeNode* curParent = node->parent;
     while (curParent && (current == curParent->right))
     {
       current = curParent;

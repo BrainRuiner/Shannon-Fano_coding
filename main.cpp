@@ -20,12 +20,7 @@ int main()
   calcFreq(nodes, size);
   print(std::cout, nodes, size);
   std::cout << "===================================\n";
-  Node** n = new Node * [size];
-  for (size_t i = 0; i < size; ++i)
-  {
-    n[i] = &nodes[i];
-  }
-  auto list = makeIntoList(n, size);
+  auto list = makeIntoList(nodes, size);
   print(std::cout, nodes, size);
 
 
