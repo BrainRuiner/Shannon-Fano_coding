@@ -5,10 +5,9 @@
 int main()
 {
   using namespace codeWork;
-  using namespace utils;
 
   size_t size = 5;
-  CodeNode* nodes = new CodeNode[size]
+  DictionaryNode* nodes = new DictionaryNode[size]
   {
     { 'a', 15 },
     { 'b', 7 },
@@ -19,18 +18,22 @@ int main()
 
   calcFreq(nodes, size);
   print(std::cout, nodes, size);
+
+  CodeNode* wn = new CodeNode[size];
+  fill(wn, nodes, size);
+  print(std::cout, wn, size);
   std::cout << "===================================\n";
-  auto list = makeIntoList(nodes, size);
-  print(std::cout, nodes, size);
+  // auto list = makeIntoList(nodes, size);
+  // print(std::cout, nodes, size);
 
 
-  // CodeNode* curr = static_cast< CodeNode* >(*list);
-  // while (curr->right)
+  // CodeNode* curr = list;
+  // while (curr->next)
   // {
-  //   std::cout << *curr << '\n';
-  //   curr = curr->right;
+  //   std::cout << curr->key << '\n';
+  //   curr = curr->next;
   // }
-  std::cout << '\n';
+  // std::cout << '\n';
   //SFCTree t(nodes, size);
 
   return 0;
