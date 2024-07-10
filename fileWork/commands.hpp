@@ -12,13 +12,11 @@ namespace fileWork
   void readText
   (
     std::ostream& out,
-    std::istream& in,
     const std::string& text
   );
   void readBinary
   (
     std::ostream& out,
-    std::istream& in,
     const std::string& binary
   );
   void decode
