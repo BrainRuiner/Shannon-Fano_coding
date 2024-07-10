@@ -1,6 +1,6 @@
 #include <iostream>
 #include "codeWork/CodeNode.hpp"
-#include "codeWork/SFCTree.hpp"
+//#include "codeWork/SFCTree.hpp"
 
 int main()
 {
@@ -23,18 +23,18 @@ int main()
   fill(wn, nodes, size);
   print(std::cout, wn, size);
   std::cout << "===================================\n";
-  // auto list = makeIntoList(nodes, size);
-  // print(std::cout, nodes, size);
+  auto list = makeIntoList(wn, size);
+  print(std::cout, wn, size);
 
-
-  // CodeNode* curr = list;
-  // while (curr->next)
-  // {
-  //   std::cout << curr->key << '\n';
-  //   curr = curr->next;
-  // }
-  // std::cout << '\n';
-  //SFCTree t(nodes, size);
+  CodeNode* curr = list;
+  while (curr)
+  {
+    std::cout << curr->key << '\n';
+    curr->origin->code = "101";
+    curr = curr->next;
+  }
+  print(std::cout, nodes, size);
+  std::cout << '\n';
 
   return 0;
 }
