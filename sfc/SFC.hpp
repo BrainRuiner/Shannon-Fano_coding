@@ -11,6 +11,7 @@ namespace sfc
   void useSfcAlgo(CodeNode* list);
   CodeNode* divideAndZeros(CodeNode* list);
   size_t calcGlobCount(CodeNode* list);
+  CodeNode* checkAndSort(CodeNode* nodes, size_t size);
 }
 
 #endif

@@ -3,8 +3,8 @@
 namespace codeWork
 {
   CodeNode::CodeNode(char k, size_t q, DictionaryNode* o,
-    const std::string& c, CodeNode* n, double f):
-    DictionaryNode(k, q, c, f),
+    const std::string& c, CodeNode* n):
+    DictionaryNode(k, q, c),
     origin(o),
     next(n)
   {}
@@ -22,7 +22,6 @@ namespace codeWork
     key = origin.key;
     quantity = origin.quantity;
     code = origin.code;
-    frequency = origin.frequency;
     this->origin = &origin;
     return *this;
   }

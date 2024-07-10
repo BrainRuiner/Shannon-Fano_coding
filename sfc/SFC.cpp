@@ -21,11 +21,7 @@ namespace sfc
     {
       workNodes = new CodeNode[size];
       codeWork::pullArr(workNodes, nodes, size);
-      utils::quickSort(workNodes, size,
-        [](const CodeNode& a, const CodeNode& b)
-        {
-          return a.quantity > b.quantity;
-        });
+      checkAndSort(workNodes, size);
       CodeNode* list = codeWork::makeIntoList(workNodes, size);
       useSfcAlgo(list);
       codeWork::pushCodeArr(workNodes, size);
@@ -94,5 +90,21 @@ namespace sfc
       list = list->next;
     }
     return globCount;
+  }
+  CodeNode* checkAndSort(CodeNode* nodes, size_t size)
+  {
+    for (size_t i = 0; i < size; ++i)
+    {
+      if (nodes[i].quantity < nodes[i + 1].quantity)
+      {
+        utils::quickSort(nodes, size,
+          [](const CodeNode& a, const CodeNode& b)
+          {
+            return a.quantity > b.quantity;
+          });
+        return nodes;
+      }
+    }
+    return nodes;
   }
 }
