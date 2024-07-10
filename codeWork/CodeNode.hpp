@@ -16,10 +16,10 @@ namespace codeWork
       const std::string& c = "", CodeNode* n = nullptr, double f = 0);
     ~CodeNode();
   };
+  CodeNode& pull(CodeNode& dest, const DictionaryNode& origin);
+  CodeNode* pullArr(CodeNode* dest, DictionaryNode* origin, size_t size);
   //Connects nodes like they are list
   //DOES NOT COPY
-  CodeNode& pull(CodeNode& dest, const DictionaryNode& origin);
-  CodeNode* fill(CodeNode* dest, DictionaryNode* origin, size_t size);
   CodeNode* makeIntoList(CodeNode* nodes, size_t size);
   void print(std::ostream& out, const CodeNode* nodes, size_t size);
 }

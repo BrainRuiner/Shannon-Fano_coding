@@ -1,6 +1,6 @@
 #include <iostream>
 #include "codeWork/CodeNode.hpp"
-//#include "codeWork/SFCTree.hpp"
+#include "sfc/SFC.hpp"
 
 int main()
 {
@@ -16,25 +16,13 @@ int main()
     { 'e', 5 }
   };
 
-  calcFreq(nodes, size);
-  print(std::cout, nodes, size);
-
   CodeNode* wn = new CodeNode[size];
-  fill(wn, nodes, size);
+  pullArr(wn, nodes, size);
   print(std::cout, wn, size);
-  std::cout << "===================================\n";
-  auto list = makeIntoList(wn, size);
+  CodeNode* list = makeIntoList(wn, size);
   print(std::cout, wn, size);
-
-  CodeNode* curr = list;
-  while (curr)
-  {
-    std::cout << curr->key << '\n';
-    curr->origin->code = "101";
-    curr = curr->next;
-  }
-  print(std::cout, nodes, size);
-  std::cout << '\n';
+  sfc::useSfcAlgo(list);
+  print(std::cout, wn, size);
 
   return 0;
 }

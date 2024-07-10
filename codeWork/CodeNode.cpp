@@ -23,7 +23,7 @@ namespace codeWork
     dest.origin = &origin;
     return dest;
   }
-  CodeNode* fill(CodeNode* dest, DictionaryNode* origin, size_t size)
+  CodeNode* pullArr(CodeNode* dest, DictionaryNode* origin, size_t size)
   {
     for (size_t i = 0; i < size; ++i)
     {
@@ -43,7 +43,7 @@ namespace codeWork
   {
     for (size_t i = 0; i < size; ++i)
     {
-      out << nodes[i].key << '\n';
+      out << nodes[i].key << ' ' << nodes[i].code << '\n';
     }
   }
 }
