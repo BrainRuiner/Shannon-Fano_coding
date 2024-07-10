@@ -7,6 +7,7 @@ namespace sfc
 {
   using DictNode = codeWork::DictionaryNode;
   using CodeNode = codeWork::CodeNode;
+
   DictNode* fillCodes(DictNode* nodes, size_t size);
   void useSfcAlgo(CodeNode* list);
   CodeNode* divideAndZeros(CodeNode* list);

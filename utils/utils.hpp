@@ -6,7 +6,12 @@ namespace utils
   template< class T >
   void swap(T& a, T& b);
   template< class T >
-  T* copyElements(T* dest, const T* src, size_t size);
+  T* copyElements
+  (
+    T* dest,
+    const T* src,
+    size_t size
+  );
 
   template< class T >
   void swap(T& a, T& b)
