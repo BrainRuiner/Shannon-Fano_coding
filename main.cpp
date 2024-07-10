@@ -9,20 +9,14 @@ int main()
   size_t size = 5;
   DictionaryNode* nodes = new DictionaryNode[size]
   {
-    { 'a', 15 },
     { 'b', 7 },
+    { 'a', 15 },
+    { 'e', 5 },
     { 'c', 6 },
-    { 'd', 6 },
-    { 'e', 5 }
+    { 'd', 6 }
   };
 
-  CodeNode* wn = new CodeNode[size];
-  pullArr(wn, nodes, size);
-  print(std::cout, wn, size);
-  CodeNode* list = makeIntoList(wn, size);
-  print(std::cout, wn, size);
-  sfc::useSfcAlgo(list);
-  print(std::cout, wn, size);
-
+  sfc::fillCodes(nodes, size);
+  print(std::cout, nodes, size);
   return 0;
 }

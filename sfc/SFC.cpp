@@ -1,5 +1,7 @@
 #include "SFC.hpp"
 #include <iostream>
+#include "../utils/quickSort.hpp"
+#include "../utils/utils.hpp"
 
 namespace sfc
 {
@@ -14,7 +16,31 @@ namespace sfc
 
   DictNode* fillCodes(DictNode* nodes, size_t size)
   {
-
+    CodeNode* workNodes = nullptr;
+    try
+    {
+      workNodes = new CodeNode[size];
+      codeWork::pullArr(workNodes, nodes, size);
+      utils::quickSort(workNodes, size,
+        [](const CodeNode& a, const CodeNode& b)
+        {
+          return a.quantity > b.quantity;
+        });
+      CodeNode* list = codeWork::makeIntoList(workNodes, size);
+      useSfcAlgo(list);
+      codeWork::pushCodeArr(workNodes, size);
+      delete[] workNodes;
+    }
+    catch (const std::bad_alloc& e)
+    {
+      throw std::logic_error("<WRONG SIZE>");
+    }
+    catch (...)
+    {
+      delete[] workNodes;
+      throw;
+    }
+    return nodes;
   }
   void useSfcAlgo(CodeNode* list)
   {

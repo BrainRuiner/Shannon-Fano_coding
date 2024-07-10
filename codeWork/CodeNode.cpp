@@ -8,26 +8,37 @@ namespace codeWork
     origin(o),
     next(n)
   {}
-  //Pushes code to origin and deletes as list
   CodeNode::~CodeNode()
   {
-    origin->code = code;
     delete next;
   }
-  CodeNode& pull(CodeNode& dest, DictionaryNode& origin)
+  CodeNode& CodeNode::pushCode()
   {
-    dest.key = origin.key;
-    dest.quantity = origin.quantity;
-    dest.code = origin.code;
-    dest.frequency = origin.frequency;
-    dest.origin = &origin;
-    return dest;
+    origin->code = code;
+    return *this;
+  }
+  CodeNode& CodeNode::pull(DictionaryNode& origin)
+  {
+    key = origin.key;
+    quantity = origin.quantity;
+    code = origin.code;
+    frequency = origin.frequency;
+    this->origin = &origin;
+    return *this;
+  }
+  CodeNode* pushCodeArr(CodeNode* nodes, size_t size)
+  {
+    for (size_t i = 0; i < size; ++i)
+    {
+      nodes[i].pushCode();
+    }
+    return nodes;
   }
   CodeNode* pullArr(CodeNode* dest, DictionaryNode* origin, size_t size)
   {
     for (size_t i = 0; i < size; ++i)
     {
-      pull(dest[i], origin[i]);
+      dest[i].pull(origin[i]);
     }
     return dest;
   }
