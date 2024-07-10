@@ -20,9 +20,28 @@ namespace codeWork
     );
   };
   std::ostream& operator<<(std::ostream& out, const DictionaryNode& node);
+  std::istream& operator>>(std::istream& in, DictionaryNode& node);
+  DictionaryNode* makeDictionary
+  (
+    std::istream& in,
+    size_t& size,
+    DictionaryNode* nodes = nullptr
+  );
+  DictionaryNode* readDictionary
+  (
+    std::istream& in,
+    size_t& size,
+    DictionaryNode* nodes = nullptr
+  );
   void print
   (
     std::ostream& out,
+    const DictionaryNode* nodes,
+    size_t size
+  );
+  std::string findCode
+  (
+    char key,
     const DictionaryNode* nodes,
     size_t size
   );

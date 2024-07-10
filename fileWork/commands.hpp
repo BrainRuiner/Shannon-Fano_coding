@@ -22,7 +22,6 @@ namespace fileWork
   void decode
   (
     std::ostream& out,
-    std::istream& in,
     const std::string& binary,
     const std::string& codes = "codes.txt",
     const std::string& text = "text.txt"
@@ -30,15 +29,13 @@ namespace fileWork
   void encode
   (
     std::ostream& out,
-    std::istream& in,
     const std::string& text,
     const std::string& binary = "binary.bin",
-    const std::string& codes = "codes.txt"
+    const std::string& codes = ""
   );
   void makeCodes
   (
     std::ostream& out,
-    std::istream& in,
     const std::string& text,
     const std::string& codes = "codes.txt"
   );
