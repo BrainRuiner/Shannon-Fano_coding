@@ -3,10 +3,8 @@
 
 #include <iostream>
 
-namespace utils
-{
-  struct DelimiterI
-  {
+namespace utils{
+  struct DelimiterI{
     char expected;
   };
   std::istream& operator>>(std::istream& in, DelimiterI&& dest);

@@ -1,0 +1,88 @@
+#include "Dictionary.hpp"
+#include "../sfc/SFC.hpp"
+#include "../utils/utils.hpp"
+#include "../utils/Delimiter.hpp"
+
+namespace codeWork{
+  Dictionary::Dictionary(std::istream& in, bool isCodeFile)
+    : nodes(nullptr), size(0){
+    (isCodeFile) ? readDictionary(in) : makeDictionary(in);
+  }
+  Dictionary::~Dictionary(){
+    delete[] nodes;
+  }
+
+  void Dictionary::print(std::ostream& out){
+    out << size << '\n';
+    for (size_t i = 0; i < size; ++i){
+      out << nodes[i] << '\n';
+    }
+  }
+  std::string Dictionary::findCode(char key){
+    if (!key){
+      return "";
+    }
+    for (size_t i = 0; i < size; ++i){
+      if (nodes[i].key == key){
+        return nodes[i].code;
+      }
+    }
+    throw std::logic_error("<NOT ENOUGH KEYS IN DICTIONARY>");
+  }
+  char Dictionary::findKey(const std::string& code){
+    for (size_t i = 0; i < size; ++i){
+      if (nodes[i].code == code){
+        return nodes[i].key;
+      }
+    }
+    throw std::logic_error("<NO CODE FOUND>");
+  }
+
+  void Dictionary::makeDictionary(std::istream& in){
+    if (!nodes){
+      size = 0;
+    }
+    char tmp = 0;
+    in >> std::noskipws;
+    DictionaryNode* newNodes = nullptr;
+    bool isFound = false;
+    while (!in.eof()){
+      isFound = false;
+      in >> tmp;
+      for (size_t i = 0; i < size; ++i){
+        if (nodes[i].key == tmp){
+          ++nodes[i].quantity;
+          isFound = true;
+        }
+      }
+      if (!isFound){
+        try{
+          newNodes = new DictionaryNode[++size];
+          utils::copyElements(newNodes, nodes, size - 1);
+          newNodes[size - 1].key = tmp;
+          newNodes[size - 1].quantity = 1;
+          delete[] nodes;
+          nodes = newNodes;
+        }
+        catch (const std::bad_alloc&){
+          throw std::logic_error("<COULD NOT CREATE DICTIONARY>");
+        }
+      }
+    }
+    sfc::fillCodes(nodes, size);
+  }
+  void Dictionary::readDictionary(std::istream& in){
+    try{
+      in >> std::noskipws;
+      using del = utils::DelimiterI;
+      in >> size >> del{ '\n' };
+      nodes = new DictionaryNode[size];
+      for (size_t i = 0; i < size; ++i){
+        in >> nodes[i];
+      }
+    }
+    catch (...){
+      throw std::logic_error("<READING ATTEMPT: FAILED");
+    }
+  }
+}

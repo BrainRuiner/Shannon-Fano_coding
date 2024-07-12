@@ -3,8 +3,7 @@
 
 #include "../codeWork/CodeNode.hpp"
 
-namespace sfc
-{
+namespace sfc{
   using DictNode = codeWork::DictionaryNode;
   using CodeNode = codeWork::CodeNode;
 
