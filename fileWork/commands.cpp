@@ -52,31 +52,66 @@ namespace fileWork
     const std::string& codes,
     const std::string& text)
   {
+    codeWork::DictionaryNode* dict = nullptr;
+    size_t size = 0;
 
+    std::ifstream finCode(codes, std::ios::in);
+    dict = codeWork::readDictionary(finCode, size, dict);
+    finCode.close();
+
+    std::ifstream fin(binary, std::ios::in);
+    std::ofstream fout(text, std::ios::out);
+
+    char bit;
+    std::string trialCode = "";
+    char resKey;
+    while (fin >> bit)
+    {
+      trialCode += bit;
+      try
+      {
+        resKey = codeWork::findKey(trialCode, dict, size);
+        out << resKey;
+        fout << resKey;
+        trialCode = "";
+      }
+      catch (const std::logic_error&)
+      {
+      }
+    }
+    if (trialCode.size() > 0)
+    {
+      fout.close();
+      fin.close();
+      delete[] dict;
+      throw std::logic_error("<NOT ENOUGH CODES>");
+    }
+    fout.close();
+    fin.close();
   }
   //В бинарные файлы нужно по особому записывать
   //Группируя по октавам. Не забудь переделать
   void encode(std::ostream& out,
     const std::string& text,
     const std::string& binary,
-    const std::string& code)
+    const std::string& codes)
   {
+    codeWork::DictionaryNode* dict = nullptr;
     try
     {
       std::ifstream fin(text, std::ios::in);
       size_t size = 0;
-      codeWork::DictionaryNode* dict = nullptr;
-      if (code == "")
+      if (codes == "")
       {
         dict = codeWork::makeDictionary(fin, size);
       }
       else
       {
-        std::ifstream finCode(code, std::ios::in);
+        std::ifstream finCode(codes, std::ios::in);
         dict = codeWork::readDictionary(finCode, size, dict);
         finCode.close();
       }
-      std::ofstream fout(binary, std::ios::out | std::ios::binary);
+      std::ofstream fout(binary, std::ios::out);
       char inputCh = 0;
       std::string tmp = "";
       fin.clear();
@@ -89,11 +124,13 @@ namespace fileWork
         out << tmp;
         fout << tmp;
       }
+      out << '\n';
       fout.close();
       fin.close();
     }
     catch (...)
     {
+      delete[] dict;
       throw;
     }
   }

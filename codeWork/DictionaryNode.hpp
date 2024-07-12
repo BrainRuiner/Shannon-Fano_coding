@@ -45,6 +45,12 @@ namespace codeWork
     const DictionaryNode* nodes,
     size_t size
   );
+  char findKey
+  (
+    std::string code,
+    const DictionaryNode* nodes,
+    size_t size
+  );
 }
 
 #endif

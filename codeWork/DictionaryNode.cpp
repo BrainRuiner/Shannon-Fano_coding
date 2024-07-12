@@ -16,7 +16,7 @@ namespace codeWork
   std::ostream& operator<<(std::ostream& out,
     const DictionaryNode& node)
   {
-    return out << node.key << " : " << node.code;
+    return out << node.key << ':' << node.code;
   }
   std::istream& operator>>(std::istream& in, DictionaryNode& node)
   {
@@ -26,7 +26,7 @@ namespace codeWork
       return in;
     }
     using del = utils::DelimiterI;
-    in >> node.key >> del{ ':' } >> node.code;
+    in >> node.key >> del{ ':' } >> node.code >> del{ '\n' };
   }
   DictionaryNode* makeDictionary(std::istream& in,
     size_t& size,
@@ -78,7 +78,9 @@ namespace codeWork
   {
     try
     {
-      in >> size;
+      in >> std::noskipws;
+      using del = utils::DelimiterI;
+      in >> size >> del{ '\n' };
       nodes = new DictionaryNode[size];
       for (size_t i = 0; i < size; ++i)
       {
@@ -95,6 +97,7 @@ namespace codeWork
     const DictionaryNode* nodes,
     size_t size)
   {
+    out << size << '\n';
     for (size_t i = 0; i < size; ++i)
     {
       out << nodes[i] << '\n';
@@ -116,7 +119,19 @@ namespace codeWork
         return nodes[i].code;
       }
     }
-    //std::cout << key << '\n';
     throw std::logic_error("<NOT ENOUGH KEYS IN DICTIONARY>");
+  }
+  char findKey(std::string code,
+    const DictionaryNode* nodes,
+    size_t size)
+  {
+    for (size_t i = 0; i < size; ++i)
+    {
+      if (nodes[i].code == code)
+      {
+        return nodes[i].key;
+      }
+    }
+    throw std::logic_error("<NO CODE FOUND>");
   }
 }
