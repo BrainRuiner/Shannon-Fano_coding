@@ -4,12 +4,28 @@
 #include "../utils/Delimiter.hpp"
 
 namespace codeWork{
+  Dictionary::Dictionary(): nodes(nullptr), size(0){}
   Dictionary::Dictionary(std::istream& in, bool isCodeFile)
     : nodes(nullptr), size(0){
     (isCodeFile) ? readDictionary(in) : makeDictionary(in);
   }
+  Dictionary::Dictionary(Dictionary&& src): nodes(src.nodes), size(src.size){
+    if (this != &src){
+      src.nodes = nullptr;
+      src.size = 0;
+    }
+  }
   Dictionary::~Dictionary(){
     delete[] nodes;
+  }
+  Dictionary& Dictionary::operator=(Dictionary&& src){
+    if (this != &src){
+      nodes = src.nodes;
+      size = src.size;
+      src.nodes = nullptr;
+      src.size = 0;
+    }
+    return *this;
   }
 
   void Dictionary::print(std::ostream& out){
