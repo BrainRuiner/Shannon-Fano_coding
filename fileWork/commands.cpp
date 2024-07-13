@@ -1,10 +1,54 @@
 #include "commands.hpp"
 #include <fstream>
 #include <string>
+#include <iostream>
 #include "../codeWork/Dictionary.hpp"
 
 namespace fileWork{
-  void runCommandLoop(std::ostream& out, std::istream& in){}
+  void runCommandLoop(std::ostream& out, std::istream& in){
+    std::string cmd = "";
+    out << '>';
+    while (in >> cmd){
+      try{
+        if (cmd == "rt"){
+          std::string text = "";
+          in >> text;
+          readText(out, text);
+        }
+        else if (cmd == "rb"){
+          std::string binary = "";
+          in >> binary;
+          readBinary(out, binary);
+        }
+        else if (cmd == "d"){
+          std::string binary = "";
+          std::string code = "";
+          std::string text = "";
+          in >> binary >> code >> text;
+          decode(out, binary, code, text);
+        }
+        else if (cmd == "e"){
+          std::string text = "";
+          std::string binary = "";
+          std::string code = "";
+          in >> text >> binary >> code;
+          encode(out, text, binary, code);
+        }
+        else if (cmd == "m"){
+          std::string text = "";
+          std::string code = "";
+          makeCodes(out, text, code);
+        }
+        else{
+          throw std::logic_error("FAIL: INVALID COMMAND");
+        }
+      }
+      catch (const std::exception& e){
+        std::cerr << e.what() << '\n';
+      }
+      out << ">";
+    }
+  }
   void readText(std::ostream& out, const std::string& text){
     try{
       std::ifstream fin(text, std::ios::in);
