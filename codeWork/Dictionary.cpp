@@ -53,6 +53,15 @@ namespace codeWork{
     }
     throw std::logic_error("<NO CODE FOUND>");
   }
+  size_t Dictionary::getMaxCodeLength(){
+    size_t max = 0;
+    for (size_t i = 0; i < size; ++i){
+      if (max < nodes[i].code.size()){
+        max = nodes[i].code.size();
+      }
+    }
+    return max;
+  }
 
   void Dictionary::makeDictionary(std::istream& in){
     if (!nodes){

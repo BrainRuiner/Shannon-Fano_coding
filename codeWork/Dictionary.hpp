@@ -20,6 +20,7 @@ namespace codeWork{
     void print(std::ostream& out);
     std::string findCode(char key);
     char findKey(const std::string& code);
+    size_t getMaxCodeLength();
 
     private:
     DictionaryNode* nodes;

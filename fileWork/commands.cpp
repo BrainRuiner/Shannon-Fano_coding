@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include "../codeWork/Dictionary.hpp"
+#include "../utils/BinaryWriter.hpp"
 
 namespace fileWork{
   void runCommandLoop(std::ostream& out, std::istream& in){
@@ -88,26 +89,8 @@ namespace fileWork{
 
     std::ifstream fin(binary, std::ios::in);
     std::ofstream fout(text, std::ios::out);
-
-    char bit;
-    std::string trialCode = "";
-    char resKey;
-    while (fin >> bit){
-      trialCode += bit;
-      try{
-        resKey = dict.findKey(trialCode);
-        out << resKey;
-        fout << resKey;
-        trialCode = "";
-      }
-      catch (const std::logic_error&){
-      }
-    }
-    if (trialCode.size() > 0){
-      fout.close();
-      fin.close();
-      throw std::logic_error("<NOT ENOUGH CODES>");
-    }
+    utils::BinaryWriter b;
+    b.read(fout, fin, dict);
     fout.close();
     fin.close();
   }
@@ -129,15 +112,8 @@ namespace fileWork{
         finCode.close();
       }
       std::ofstream fout(binary, std::ios::out);
-      char inputCh = 0;
-      std::string tmp = "";
-      fin >> std::noskipws;
-      while (fin >> inputCh){
-        tmp = dict.findCode(inputCh);
-        out << tmp;
-        fout << tmp;
-      }
-      out << '\n';
+      utils::BinaryWriter bw;
+      bw.write(fout, fin, dict);
       fin.close();
       fout.close();
     }
