@@ -20,6 +20,7 @@ namespace utils{
     char ch;
     std::string code;
     size_t maxCodeLength = dict.getMaxCodeLength();
+    in >> std::noskipws;
     while (in >> ch){
       for (size_t i = 0; i < 8; ++i){
         code += readBitChar(ch);
@@ -57,6 +58,12 @@ namespace utils{
       bit = '0';
     }
     return bit;
+  }
+  char BinaryWriter::reverseBits(char ch){
+    // char a;
+    // for (size_t i = 0; i < 8; ++i){
+    //   if ()
+    // }
   }
   void BinaryWriter::flush(std::ostream& out){
     while (currBit){

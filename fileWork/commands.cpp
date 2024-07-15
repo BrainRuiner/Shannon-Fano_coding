@@ -87,7 +87,7 @@ namespace fileWork{
     codeWork::Dictionary dict(finCode, FROM_CODE_FILE);
     finCode.close();
 
-    std::ifstream fin(binary, std::ios::in);
+    std::ifstream fin(binary, std::ios::binary);
     std::ofstream fout(text, std::ios::out);
     utils::BinaryWriter b;
     b.read(fout, fin, dict);
@@ -111,7 +111,7 @@ namespace fileWork{
         dict = codeWork::Dictionary(finCode, FROM_CODE_FILE);
         finCode.close();
       }
-      std::ofstream fout(binary, std::ios::out);
+      std::ofstream fout(binary, std::ios::binary);
       utils::BinaryWriter bw;
       bw.write(fout, fin, dict);
       fin.close();
