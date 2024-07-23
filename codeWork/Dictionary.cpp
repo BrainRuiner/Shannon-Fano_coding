@@ -62,6 +62,15 @@ namespace codeWork{
     }
     return max;
   }
+  size_t Dictionary::getMinCodeLength(){
+    size_t min = 0;
+    for (size_t i = 0; i < size; ++i){
+      if (nodes[i].code.size() < min){
+        min = nodes[i].code.size();
+      }
+    }
+    return min;
+  }
 
   void Dictionary::makeDictionary(std::istream& in){
     if (!nodes){

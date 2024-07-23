@@ -1,4 +1,5 @@
 #include "BinaryWriter.hpp"
+#include <ctime>
 
 namespace utils{
   BinaryWriter::BinaryWriter(): bitBuffer(0), currBit(0){}
@@ -20,22 +21,27 @@ namespace utils{
     char ch;
     std::string code;
     size_t maxCodeLength = dict.getMaxCodeLength();
+    size_t minCodeLength = dict.getMinCodeLength();
     in >> std::noskipws;
+    auto c = std::clock();
     while (in >> ch){
       for (size_t i = 0; i < 8; ++i){
         code += readBitChar(ch);
         ch <<= 1;
-        try{
-          out << dict.findKey(code);
-          code = "";
-        }
-        catch (...){
+        if (minCodeLength <= code.size()){
+          try{
+            out << dict.findKey(code);
+            code = "";
+          }
+          catch (...){
+          }
         }
       }
       if (maxCodeLength < code.size()){
         throw std::logic_error("NO CODE FOUND");
       }
     }
+    std::cout << std::clock() - c << '\n';
   }
 
   void BinaryWriter::writeBit(std::ostream& out, char bit){
@@ -58,12 +64,6 @@ namespace utils{
       bit = '0';
     }
     return bit;
-  }
-  char BinaryWriter::reverseBits(char ch){
-    // char a;
-    // for (size_t i = 0; i < 8; ++i){
-    //   if ()
-    // }
   }
   void BinaryWriter::flush(std::ostream& out){
     while (currBit){

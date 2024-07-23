@@ -5,4 +5,5 @@
 *.out
 #vscode
 .vscode/
-
+#tests
+**/big*.*

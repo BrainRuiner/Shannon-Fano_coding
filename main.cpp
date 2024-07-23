@@ -15,10 +15,11 @@ int main(){
 
 
 
-  fileWork::makeCodes(std::cout, "bigfile.txt", "bigCodes.txt");
-  fileWork::encode(std::cout, "bigfile.txt", "bigBinary.bin",
-    "bigCodes.txt");
-  fileWork::decode(std::cout, "bigBinary.bin", "bigCodes.txt",
-    "bigRes.txt");
+  // fileWork::makeCodes(std::cout, "bigfile2.txt", "bigCodes.txt");
+  // fileWork::encode(std::cout, "bigfile2.txt", "bigBinary.bin",
+  //   "bigCodes.txt");
+  // std::cout << "Decode\n";
+  // fileWork::decode(std::cout, "bigBinary.bin", "bigCodes.txt",
+  //   "bigRes.txt");
   return 0;
 }

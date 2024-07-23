@@ -13,7 +13,6 @@ namespace utils{
 
     void writeBit(std::ostream& out, char bit);
     char readBitChar(char ch);
-    char reverseBits(char ch);
     void flush(std::ostream& out);
     private:
     char bitBuffer;

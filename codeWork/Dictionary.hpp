@@ -21,6 +21,7 @@ namespace codeWork{
     std::string findCode(char key);
     char findKey(const std::string& code);
     size_t getMaxCodeLength();
+    size_t getMinCodeLength();
 
     private:
     DictionaryNode* nodes;
