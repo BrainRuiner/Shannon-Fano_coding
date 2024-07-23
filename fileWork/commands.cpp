@@ -12,16 +12,7 @@ namespace fileWork{
     std::string second = "";
     std::string third = "";
     out << "> ";
-    in >> cmd;
-    if (in.peek() != '\n'){
-      in >> first;
-      if (in.peek() != '\n'){
-        in >> second;
-        if (in.peek() != '\n'){
-          in >> third;
-        }
-      }
-    }
+    runArgReader(in, cmd, first, second, third);
     while (in){
       try{
         if (cmd == "rt"){
@@ -47,19 +38,21 @@ namespace fileWork{
         out << e.what() << '\n';
       }
       out << "> ";
-      in >> cmd;
-      if (in.peek() != '\n'){
-        in >> first;
-        if (in.peek() != '\n'){
-          in >> second;
-          if (in.peek() != '\n'){
-            in >> third;
-          }
-        }
-      }
+      runArgReader(in, cmd, first, second, third);
     }
     out << '\n';
   }
+  template <class First, class ...Other>
+  void runArgReader(std::istream& in, First& first, Other& ...other){
+    in >> first;
+    if (in.peek() != '\n'){
+      runArgReader(in, other...);
+    }
+  }
+  void runArgReader(std::istream& in){
+    return;
+  }
+
   void readText(std::ostream& out, const std::string& text){
     try{
       std::ifstream fin(text, std::ios::in);
