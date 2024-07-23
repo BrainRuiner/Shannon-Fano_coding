@@ -1,6 +1,7 @@
 #include "Dictionary.hpp"
 #include "../sfc/SFC.hpp"
 #include "../utils/utils.hpp"
+#include "../utils/quickSort.hpp"
 #include "../utils/Delimiter.hpp"
 
 namespace codeWork{
@@ -103,6 +104,9 @@ namespace codeWork{
         }
       }
     }
+    utils::quickSort(nodes, size, [](DictionaryNode& a, DictionaryNode& b){
+      return a.quantity > b.quantity;
+      });
     sfc::fillCodes(nodes, size);
   }
   void Dictionary::readDictionary(std::istream& in){
