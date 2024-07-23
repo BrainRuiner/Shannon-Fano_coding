@@ -1,6 +1,9 @@
-#vscode
-.vscode/
-#Scripts
-*.sh
 #projMaker
 .proj/
+#execs
+*.exe
+*.out
+#vscode
+.vscode/
+#tests
+**/big*.*
