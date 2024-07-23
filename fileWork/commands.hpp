@@ -7,6 +7,7 @@
 
 namespace fileWork{
   void runCommandLoop(std::ostream& out, std::istream& in);
+  //void readArgs(std::istream& in, std::string arg1);
 
   void readText(std::ostream& out, const std::string& text);
   void readBinary(std::ostream& out, const std::string& binary);

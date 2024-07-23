@@ -21,5 +21,6 @@ int main(){
   // std::cout << "Decode\n";
   // fileWork::decode(std::cout, "bigBinary.bin", "bigCodes.txt",
   //   "bigRes.txt");
+  fileWork::runCommandLoop(std::cout, std::cin);
   return 0;
 }

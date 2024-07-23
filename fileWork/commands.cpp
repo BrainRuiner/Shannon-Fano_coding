@@ -8,47 +8,57 @@
 namespace fileWork{
   void runCommandLoop(std::ostream& out, std::istream& in){
     std::string cmd = "";
-    out << '>';
-    while (in >> cmd){
+    std::string first = "";
+    std::string second = "";
+    std::string third = "";
+    out << "> ";
+    in >> cmd;
+    if (in.peek() != '\n'){
+      in >> first;
+      if (in.peek() != '\n'){
+        in >> second;
+        if (in.peek() != '\n'){
+          in >> third;
+        }
+      }
+    }
+    while (in){
       try{
         if (cmd == "rt"){
-          std::string text = "";
-          in >> text;
-          readText(out, text);
+          readText(out, first);
         }
         else if (cmd == "rb"){
-          std::string binary = "";
-          in >> binary;
-          readBinary(out, binary);
+          readBinary(out, first);
         }
         else if (cmd == "d"){
-          std::string binary = "";
-          std::string code = "";
-          std::string text = "";
-          in >> binary >> code >> text;
-          decode(out, binary, code, text);
+          decode(out, first, second, third);
         }
         else if (cmd == "e"){
-          std::string text = "";
-          std::string binary = "";
-          std::string code = "";
-          in >> text >> binary >> code;
-          encode(out, text, binary, code);
+          encode(out, first, second, third);
         }
         else if (cmd == "m"){
-          std::string text = "";
-          std::string code = "";
-          makeCodes(out, text, code);
+          makeCodes(out, first, second);
         }
         else{
-          throw std::logic_error("FAIL: INVALID COMMAND");
+          throw std::logic_error("<FAIL: No such command>");
         }
       }
       catch (const std::exception& e){
-        std::cerr << e.what() << '\n';
+        out << e.what() << '\n';
       }
-      out << ">";
+      out << "> ";
+      in >> cmd;
+      if (in.peek() != '\n'){
+        in >> first;
+        if (in.peek() != '\n'){
+          in >> second;
+          if (in.peek() != '\n'){
+            in >> third;
+          }
+        }
+      }
     }
+    out << '\n';
   }
   void readText(std::ostream& out, const std::string& text){
     try{
