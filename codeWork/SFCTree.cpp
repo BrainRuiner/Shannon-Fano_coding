@@ -33,16 +33,49 @@ namespace codeWork{
     }
   }
   std::string SFCTree::findCode(char key){
-
+    CodeNode* current = getMin(root);
+    while (current){
+      if (current->key == key){
+        return current->code;
+      }
+      current = getNext(current);
+    }
+    throw std::logic_error("KEY NOT FOUND");
   }
   char SFCTree::findKey(const std::string& code){
-
+    CodeNode* current = root;
+    for (size_t i = 0; i < code.length(); ++i){
+      if (code[i] == '0'){
+        current = current->left;
+      }
+      else{
+        current = current->right;
+      }
+    }
+    if (!current->key){
+      throw std::logic_error("CODE NOT FOUND");
+    }
+    return current->key;
   }
   size_t SFCTree::getMaxCodeLength(){
-
+    if (root){
+      CodeNode* current = root;
+      while (current->right){
+        current = current->right;
+      }
+      return current->code.length();
+    }
+    return 0;
   }
   size_t SFCTree::getMinCodeLength(){
-
+    if (root){
+      CodeNode* current = root;
+      while (current->left){
+        current = current->right;
+      }
+      return current->code.length();
+    }
+    return 0;
   }
 
   void SFCTree::makeTree(std::istream& in){
