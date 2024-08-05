@@ -24,6 +24,11 @@ int main(){
   //fileWork::runCommandLoop(std::cout, std::cin);
 
   codeWork::SFCTree tree(std::cin);
+  codeWork::CodeNode* c = tree.root;
+  while (c){
+    std::cout << c->key << ' ' << c->quantity << '\n';
+    c = c->right;
+  }
 
   return 0;
 }

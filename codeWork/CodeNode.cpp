@@ -19,22 +19,11 @@ namespace codeWork{
       out << nodes[i].key << ' ' << nodes[i].code << '\n';
     }
   }
-  CodeNode* merge(CodeNode* first, CodeNode* second){
-
-  }
-  CodeNode* mergeSort(CodeNode* list){
-    CodeNode* first = list;
-    CodeNode* current = list;
-    while (first->right){
-      first = first->right;
-      if (first->right){
-        current = current->right;
-        first = first->right;
-      }
+  void print(CodeNode* list){
+    while (list){
+      std::cout << list->key;
+      list = list->right;
     }
-    current = current->right;
-    CodeNode* second = current;
-    first = list;
-
+    std::cout << '\n';
   }
 }

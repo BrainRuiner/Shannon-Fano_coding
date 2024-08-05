@@ -3,7 +3,6 @@
 namespace codeWork{
   SFCTree::SFCTree(): root(nullptr){}
   SFCTree::SFCTree(std::istream& in, bool isCodeFile): root(nullptr){
-    root = new CodeNode();
     isCodeFile ? readTree(in) : makeTree(in);
   }
   SFCTree::SFCTree(SFCTree&& src): root(src.root){
@@ -49,13 +48,13 @@ namespace codeWork{
   void SFCTree::makeTree(std::istream& in){
     char tmp = 0;
     bool isFound = false;
-    CodeNode* current = root;
+    CodeNode* current = nullptr;
     in >> std::noskipws;
     while (!in.eof()){
       current = root;
       isFound = false;
       in >> tmp;
-      while (current->right){
+      while (current && current->right){
         if (current->key == tmp){
           ++current->quantity;
           isFound = true;
@@ -63,21 +62,29 @@ namespace codeWork{
         }
         current = current->right;
       }
-      if (current->key == tmp){
+      if (current && current->key == tmp){
         ++current->quantity;
         isFound = true;
       }
       if (!isFound){
         try{
           CodeNode* newNode = new CodeNode(tmp, 1);
-          current->right = newNode;
+          if (!current){
+            root = newNode;
+          }
+          else{
+            current->right = newNode;
+          }
         }
         catch (const std::bad_alloc&){
           throw std::logic_error("<COULD NOT CREATE DICTIONARY>");
         }
       }
     }
-    //mergeSortList(list);
+    root = mergeSort(root,
+      [](const CodeNode& a, const CodeNode& b){
+        return a.quantity > b.quantity;
+      });
     //fillCodesMakeTree
   }
   void SFCTree::readTree(std::istream& in){
@@ -105,6 +112,5 @@ namespace codeWork{
       curParent = curParent->parent;
     }
     return curParent;
-
   }
 }
