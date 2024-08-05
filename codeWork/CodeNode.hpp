@@ -19,6 +19,7 @@ namespace codeWork{
     CodeNode& pushCode();
     CodeNode& pull(DictionaryNode& origin);
   };
+  void swap(CodeNode& a, CodeNode& b);
   CodeNode* pushCodeArr(CodeNode* nodes, size_t size);
   CodeNode* pullArr(CodeNode* dest, DictionaryNode* origin, size_t size);
   //Connects nodes like they are list
@@ -82,7 +83,13 @@ namespace codeWork{
     first = list;
     first = mergeSort(first, comp);
     second = mergeSort(second, comp);
+    std::cout << "first: ";
+    print(first);
+    std::cout << "sceond: ";
+    print(second);
     list = merge(first, second, comp);
+    std::cout << "list: ";
+    print(list);
     return list;
   }
 }

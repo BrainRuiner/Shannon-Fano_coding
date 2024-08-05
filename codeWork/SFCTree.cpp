@@ -1,4 +1,5 @@
 #include "SFCTree.hpp"
+#include "../sfc/SFC.hpp"
 
 namespace codeWork{
   SFCTree::SFCTree(): root(nullptr){}
@@ -23,7 +24,6 @@ namespace codeWork{
   }
 
   void SFCTree::print(std::ostream& out){
-    //out << size << '\n';
     CodeNode* current = getMin(root);
     while (current){
       if (current->key){
@@ -83,9 +83,9 @@ namespace codeWork{
     }
     root = mergeSort(root,
       [](const CodeNode& a, const CodeNode& b){
-        return a.quantity > b.quantity;
+        return a.quantity >= b.quantity;
       });
-    //fillCodesMakeTree
+    sfc::useSfcAlgo(root);
   }
   void SFCTree::readTree(std::istream& in){
 

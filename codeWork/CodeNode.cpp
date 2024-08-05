@@ -8,6 +8,11 @@ namespace codeWork{
     delete left;
     delete right;
   }
+  void swap(CodeNode& a, CodeNode& b){
+    CodeNode tmp(a);
+    a = b;
+    b = tmp;
+  }
   CodeNode* makeIntoList(CodeNode* nodes, size_t size){
     for (size_t i = 0; i < size - 1; ++i){
       nodes[i].right = &nodes[i + 1];
