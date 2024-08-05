@@ -1,38 +1,16 @@
 #include "CodeNode.hpp"
 
 namespace codeWork{
-  CodeNode::CodeNode(char k, size_t q, DictionaryNode* o,
-    const std::string& c, CodeNode* n)
-    : DictionaryNode(k, q, c), origin(o), next(n){}
+  CodeNode::CodeNode(char k, size_t q, const std::string& c,
+    CodeNode* r, CodeNode* l, CodeNode* p)
+    : key(k), quantity(q), code(c), right(r), left(l), parent(p){}
   CodeNode::~CodeNode(){
-    delete next;
-  }
-  CodeNode& CodeNode::pushCode(){
-    origin->code = code;
-    return *this;
-  }
-  CodeNode& CodeNode::pull(DictionaryNode& origin){
-    key = origin.key;
-    quantity = origin.quantity;
-    code = origin.code;
-    this->origin = &origin;
-    return *this;
-  }
-  CodeNode* pushCodeArr(CodeNode* nodes, size_t size){
-    for (size_t i = 0; i < size; ++i){
-      nodes[i].pushCode();
-    }
-    return nodes;
-  }
-  CodeNode* pullArr(CodeNode* dest, DictionaryNode* origin, size_t size){
-    for (size_t i = 0; i < size; ++i){
-      dest[i].pull(origin[i]);
-    }
-    return dest;
+    delete left;
+    delete right;
   }
   CodeNode* makeIntoList(CodeNode* nodes, size_t size){
     for (size_t i = 0; i < size - 1; ++i){
-      nodes[i].next = &nodes[i + 1];
+      nodes[i].right = &nodes[i + 1];
     }
     return nodes;
   }
@@ -40,5 +18,23 @@ namespace codeWork{
     for (size_t i = 0; i < size; ++i){
       out << nodes[i].key << ' ' << nodes[i].code << '\n';
     }
+  }
+  CodeNode* merge(CodeNode* first, CodeNode* second){
+
+  }
+  CodeNode* mergeSort(CodeNode* list){
+    CodeNode* first = list;
+    CodeNode* current = list;
+    while (first->right){
+      first = first->right;
+      if (first->right){
+        current = current->right;
+        first = first->right;
+      }
+    }
+    current = current->right;
+    CodeNode* second = current;
+    first = list;
+
   }
 }

@@ -4,12 +4,16 @@
 #include "DictionaryNode.hpp"
 
 namespace codeWork{
-  struct CodeNode: public DictionaryNode{
-    DictionaryNode* origin;
-    CodeNode* next;
+  struct CodeNode{
+    char key;
+    size_t quantity;
+    std::string code;
+    CodeNode* right;
+    CodeNode* left;
+    CodeNode* parent;
 
-    CodeNode(char k = 0, size_t q = 0, DictionaryNode* o = nullptr,
-      const std::string& c = "", CodeNode* n = nullptr);
+    CodeNode(char k = 0, size_t q = 0, const std::string& c = "",
+      CodeNode* r = nullptr, CodeNode* l = nullptr, CodeNode* p = nullptr);
     ~CodeNode();
 
     CodeNode& pushCode();
@@ -20,6 +24,8 @@ namespace codeWork{
   //Connects nodes like they are list
   //DOES NOT COPY
   CodeNode* makeIntoList(CodeNode* nodes, size_t size);
+  CodeNode* merge(CodeNode* first, CodeNode* second);
+  CodeNode* mergeSort(CodeNode* list);
 }
 
 #endif
