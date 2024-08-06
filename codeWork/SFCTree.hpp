@@ -1,6 +1,7 @@
 #ifndef SFC_TREE_HPP
 #define SFC_TREE_HPP
 
+#include <iostream>
 #include "CodeNode.hpp"
 
 #define FROM_CODE_FILE true

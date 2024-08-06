@@ -1,8 +1,4 @@
 #include "commands.hpp"
-#include <fstream>
-#include <string>
-#include <iostream>
-// #include "../codeWork/Dictionary.hpp"
 #include "../codeWork/SFCTree.hpp"
 #include "../utils/BinaryWriter.hpp"
 

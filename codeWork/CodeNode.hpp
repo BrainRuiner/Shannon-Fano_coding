@@ -1,7 +1,8 @@
 #ifndef CODE_NODE_HPP
 #define CODE_NODE_HPP
 
-#include "DictionaryNode.hpp"
+#include <iostream>
+#include <string>
 
 namespace codeWork{
   struct CodeNode{
@@ -15,17 +16,9 @@ namespace codeWork{
     CodeNode(char k = 0, size_t q = 0, const std::string& c = "",
       CodeNode* r = nullptr, CodeNode* l = nullptr, CodeNode* p = nullptr);
     ~CodeNode();
-
-    CodeNode& pushCode();
-    CodeNode& pull(DictionaryNode& origin);
   };
   std::istream& operator>>(std::istream& in, CodeNode& node);
   void swap(CodeNode& a, CodeNode& b);
-  CodeNode* pushCodeArr(CodeNode* nodes, size_t size);
-  CodeNode* pullArr(CodeNode* dest, DictionaryNode* origin, size_t size);
-  //Connects nodes like they are list
-  //DOES NOT COPY
-  CodeNode* makeIntoList(CodeNode* nodes, size_t size);
   template < class Comp >
   CodeNode* merge(CodeNode* first, CodeNode* second, const Comp& comp);
   template < class Comp >

@@ -1,15 +1,6 @@
 #include "SFC.hpp"
-#include <iostream>
-#include "../utils/quickSort.hpp"
-#include "../utils/utils.hpp"
 
 namespace sfc{
-  void print(CodeNode* list){
-    while (list){
-      std::cout << list->key << ' ' << list->code << '\n';
-      list = list->right;
-    }
-  }
   void useSfcAlgo(CodeNode* list){
     if (!list->right){
       return;
@@ -60,17 +51,5 @@ namespace sfc{
       list = list->right;
     }
     return globCount;
-  }
-  CodeNode* checkAndSort(CodeNode* nodes, size_t size){
-    for (size_t i = 0; i < size; ++i){
-      if (nodes[i].quantity < nodes[i + 1].quantity){
-        utils::quickSort(nodes, size,
-          [](const CodeNode& a, const CodeNode& b){
-            return a.quantity > b.quantity;
-          });
-        return nodes;
-      }
-    }
-    return nodes;
   }
 }

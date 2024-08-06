@@ -1,5 +1,4 @@
 #include "Delimiter.hpp"
-#include <iostream>
 
 std::istream& utils::operator>>(std::istream& in, DelimiterI&& dest){
   std::istream::sentry sentry(in);
