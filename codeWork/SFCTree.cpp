@@ -27,7 +27,7 @@ namespace codeWork{
     CodeNode* current = getMin(root);
     while (current){
       if (current->key){
-        out << current->key << '\n';
+        out << current->key << ' ' << current->code << '\n';
       }
       current = getNext(current);
     }
