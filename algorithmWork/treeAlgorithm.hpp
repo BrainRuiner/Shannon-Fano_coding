@@ -3,12 +3,10 @@
 
 #include "../codeWork/CodeNode.hpp"
 
-namespace awk{
-  namespace cwk = codeWork;
-
-  void listToTree(cwk::CodeNode* list);
-  cwk::CodeNode* divideAndZeros(cwk::CodeNode* list);
-  size_t calcGlobCount(cwk::CodeNode* list);
+namespace algorithmWork{
+  void listToTree(codeWork::CodeNode* list);
+  codeWork::CodeNode* divideAndZeros(codeWork::CodeNode* list);
+  size_t calcGlobCount(codeWork::CodeNode* list);
 }
 
 #endif

@@ -29,11 +29,4 @@ namespace codeWork{
     a = b;
     b = tmp;
   }
-  void print(CodeNode* list){
-    while (list){
-      std::cout << list->key;
-      list = list->right;
-    }
-    std::cout << '\n';
-  }
 }

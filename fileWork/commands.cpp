@@ -1,6 +1,7 @@
 #include "commands.hpp"
 #include "../codeWork/CodeTree.hpp"
-#include "../utils/BinaryWriter.hpp"
+#include "../binaryWork/BinaryWriter.hpp"
+#include <ctime>
 
 namespace fileWork{
   void runCommandLoop(std::ostream& out, std::istream& in){
@@ -25,7 +26,7 @@ namespace fileWork{
           makeCodes(out, first, second);
         }
         else{
-          throw std::logic_error("<FAIL: No such command>");
+          throw std::logic_error("FAIL: <No such command>");
         }
       }
       catch (const std::exception& e){
@@ -57,27 +58,36 @@ namespace fileWork{
         out << a;
       }
       fin.close();
+      out << "\n";
     }
     catch (...){
+      out << "Read....FAIL: ";
       throw std::logic_error("<WRONG FILE NAME>");
     }
   }
-  void decode(std::ostream& out, const std::string& binary,
-    const std::string& codes, const std::string& text){
+  void decode(std::ostream& out, const std::string& binary, const std::string& codes,
+    const std::string& text){
+    try{
+      std::ifstream finCode(codes, std::ios::in);
+      codeWork::CodeTree codeTree(finCode, FROM_CODE_FILE);
+      finCode.close();
 
-    std::ifstream finCode(codes, std::ios::in);
-    codeWork::CodeTree codeTree(finCode, FROM_CODE_FILE);
-    finCode.close();
+      std::ifstream fin(binary, std::ios::binary);
+      std::ofstream fout(text, std::ios::out);
+      binaryWork::BinaryWriter b;
+      b.read(fout, fin, codeTree);
+      fout.close();
+      fin.close();
 
-    std::ifstream fin(binary, std::ios::binary);
-    std::ofstream fout(text, std::ios::out);
-    utils::BinaryWriter b;
-    b.read(fout, fin, codeTree);
-    fout.close();
-    fin.close();
+      out << "Decode....COMPLETE\n";
+    }
+    catch (...){
+      out << "Decode....FAIL: ";
+      throw;
+    }
   }
-  void encode(std::ostream& out, const std::string& text,
-    const std::string& binary, const std::string& codes){
+  void encode(std::ostream& out, const std::string& text, const std::string& binary,
+    const std::string& codes){
     try{
       std::ifstream fin(text, std::ios::in);
       codeWork::CodeTree codeTree;
@@ -92,23 +102,33 @@ namespace fileWork{
         finCode.close();
       }
       std::ofstream fout(binary, std::ios::binary);
-      utils::BinaryWriter bw;
+      binaryWork::BinaryWriter bw;
       bw.write(fout, fin, codeTree);
       fin.close();
       fout.close();
+
+      out << "Encode....COMPLETE\n";
     }
     catch (...){
+      out << "Encode....FAIL: ";
       throw;
     }
   }
-  void makeCodes(std::ostream& out, const std::string& text,
-    const std::string& codes){
-    std::ifstream fin(text, std::ios::in);
-    codeWork::CodeTree codeTree(fin);
-    fin.close();
-    //codeTree.print(out);
-    std::ofstream fout(codes, std::ios::out);
-    codeTree.print(fout);
-    fout.close();
+  void makeCodes(std::ostream& out, const std::string& text, const std::string& codes){
+    try{
+      std::ifstream fin(text, std::ios::in);
+      codeWork::CodeTree codeTree(fin);
+      fin.close();
+      std::ofstream fout(codes, std::ios::out);
+      codeTree.print(fout);
+      fout.close();
+
+      out << "MakeCodes....COMPLETE\n";
+    }
+    catch (...){
+      out << "MakeCodes....FAIL: ";
+      throw;
+    }
+
   }
 }

@@ -1,6 +1,6 @@
 #include "BinaryWriter.hpp"
 
-namespace utils{
+namespace binaryWork{
   BinaryWriter::BinaryWriter(): bitBuffer(0), currBit(0){}
   void BinaryWriter::write(std::ostream& out, std::istream& in,
     codeWork::CodeTree& codeTree){

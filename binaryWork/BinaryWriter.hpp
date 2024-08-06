@@ -4,7 +4,7 @@
 #include <iostream>
 #include "../codeWork/CodeTree.hpp"
 
-namespace utils{
+namespace binaryWork{
   class BinaryWriter{
     public:
     BinaryWriter();

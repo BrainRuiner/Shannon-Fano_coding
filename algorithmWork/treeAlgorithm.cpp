@@ -1,19 +1,19 @@
 #include "treeAlgorithm.hpp"
 
-namespace awk{
-  void listToTree(cwk::CodeNode* list){
+namespace algorithmWork{
+  void listToTree(codeWork::CodeNode* list){
     if (!list->right){
       return;
     }
-    cwk::CodeNode* current = divideAndZeros(list);
-    cwk::CodeNode* tmp = current;
+    codeWork::CodeNode* current = divideAndZeros(list);
+    codeWork::CodeNode* tmp = current;
     while (tmp){
       tmp->code += '1';
       tmp = tmp->right;
     }
-    cwk::CodeNode* newList = new cwk::CodeNode;
+    codeWork::CodeNode* newList = new codeWork::CodeNode;
     newList->parent = list->parent;
-    cwk::swap(*newList, *list);
+    codeWork::swap(*newList, *list);
     list->left = newList;
     list->right = current;
     newList->parent = list;
@@ -21,9 +21,9 @@ namespace awk{
     listToTree(newList);
     listToTree(current);
   }
-  cwk::CodeNode* divideAndZeros(cwk::CodeNode* list){
+  codeWork::CodeNode* divideAndZeros(codeWork::CodeNode* list){
     double barrierCount = calcGlobCount(list) * 0.5;
-    cwk::CodeNode* previous = list;
+    codeWork::CodeNode* previous = list;
     size_t sum = list->quantity;
     size_t prevSum = sum;
     do{
@@ -44,7 +44,7 @@ namespace awk{
     previous->right = nullptr;
     return list;
   }
-  size_t calcGlobCount(cwk::CodeNode* list){
+  size_t calcGlobCount(codeWork::CodeNode* list){
     double globCount = 0;
     while (list){
       globCount += list->quantity;

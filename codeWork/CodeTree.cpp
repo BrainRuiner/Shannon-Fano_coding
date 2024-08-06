@@ -118,7 +118,7 @@ namespace codeWork{
       [](const CodeNode& a, const CodeNode& b){
         return a.quantity >= b.quantity;
       });
-    awk::listToTree(root);
+    algorithmWork::listToTree(root);
   }
   void CodeTree::readTree(std::istream& in){
     try{

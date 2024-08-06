@@ -23,7 +23,6 @@ namespace codeWork{
   CodeNode* merge(CodeNode* first, CodeNode* second, const Comp& comp);
   template < class Comp >
   CodeNode* mergeSort(CodeNode* list, const Comp& comp);
-  void print(CodeNode* list);
 
   template < class Comp >
   CodeNode* merge(CodeNode* first, CodeNode* second, const Comp& comp){
