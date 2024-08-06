@@ -44,7 +44,7 @@ namespace codeWork{
   }
   char SFCTree::findKey(const std::string& code){
     CodeNode* current = root;
-    for (size_t i = 0; i < code.length(); ++i){
+    for (size_t i = 0; current && i < code.length(); ++i){
       if (code[i] == '0'){
         current = current->left;
       }
@@ -52,7 +52,7 @@ namespace codeWork{
         current = current->right;
       }
     }
-    if (!current->key){
+    if (!current || !current->key){
       throw std::logic_error("CODE NOT FOUND");
     }
     return current->key;
@@ -71,7 +71,7 @@ namespace codeWork{
     if (root){
       CodeNode* current = root;
       while (current->left){
-        current = current->right;
+        current = current->left;
       }
       return current->code.length();
     }

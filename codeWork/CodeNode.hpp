@@ -84,13 +84,7 @@ namespace codeWork{
     first = list;
     first = mergeSort(first, comp);
     second = mergeSort(second, comp);
-    std::cout << "first: ";
-    print(first);
-    std::cout << "sceond: ";
-    print(second);
     list = merge(first, second, comp);
-    std::cout << "list: ";
-    print(list);
     return list;
   }
 }
