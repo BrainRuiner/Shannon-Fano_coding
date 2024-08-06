@@ -1,21 +1,21 @@
-#include "SFCTree.hpp"
-#include "../sfc/SFC.hpp"
+#include "CodeTree.hpp"
+#include "../algorithmWork/treeAlgorithm.hpp"
 
 namespace codeWork{
-  SFCTree::SFCTree(): root(nullptr){}
-  SFCTree::SFCTree(std::istream& in, bool isCodeFile): root(nullptr){
+  CodeTree::CodeTree(): root(nullptr){}
+  CodeTree::CodeTree(std::istream& in, bool isCodeFile): root(nullptr){
     isCodeFile ? readTree(in) : makeTree(in);
   }
-  SFCTree::SFCTree(SFCTree&& src): root(src.root){
+  CodeTree::CodeTree(CodeTree&& src): root(src.root){
     if (this != &src){
       src.root = nullptr;
     }
   }
-  SFCTree::~SFCTree(){
+  CodeTree::~CodeTree(){
     delete root;
   }
 
-  SFCTree& SFCTree::operator=(SFCTree&& src){
+  CodeTree& CodeTree::operator=(CodeTree&& src){
     if (this != &src){
       root = src.root;
       src.root = nullptr;
@@ -23,7 +23,7 @@ namespace codeWork{
     return *this;
   }
 
-  void SFCTree::print(std::ostream& out){
+  void CodeTree::print(std::ostream& out){
     CodeNode* current = getMin(root);
     while (current){
       if (current->key){
@@ -32,7 +32,7 @@ namespace codeWork{
       current = getNext(current);
     }
   }
-  std::string SFCTree::findCode(char key){
+  std::string CodeTree::findCode(char key){
     CodeNode* current = getMin(root);
     while (current){
       if (current->key == key){
@@ -42,7 +42,7 @@ namespace codeWork{
     }
     throw std::logic_error("KEY NOT FOUND");
   }
-  char SFCTree::findKey(const std::string& code){
+  char CodeTree::findKey(const std::string& code){
     CodeNode* current = root;
     for (size_t i = 0; current && i < code.length(); ++i){
       if (code[i] == '0'){
@@ -57,7 +57,7 @@ namespace codeWork{
     }
     return current->key;
   }
-  size_t SFCTree::getMaxCodeLength(){
+  size_t CodeTree::getMaxCodeLength(){
     if (root){
       CodeNode* current = root;
       while (current->right){
@@ -67,7 +67,7 @@ namespace codeWork{
     }
     return 0;
   }
-  size_t SFCTree::getMinCodeLength(){
+  size_t CodeTree::getMinCodeLength(){
     if (root){
       CodeNode* current = root;
       while (current->left){
@@ -78,7 +78,7 @@ namespace codeWork{
     return 0;
   }
 
-  void SFCTree::makeTree(std::istream& in){
+  void CodeTree::makeTree(std::istream& in){
     char tmp = 0;
     bool isFound = false;
     CodeNode* current = nullptr;
@@ -118,9 +118,9 @@ namespace codeWork{
       [](const CodeNode& a, const CodeNode& b){
         return a.quantity >= b.quantity;
       });
-    sfc::useSfcAlgo(root);
+    awk::listToTree(root);
   }
-  void SFCTree::readTree(std::istream& in){
+  void CodeTree::readTree(std::istream& in){
     try{
       if (!root){
         root = new CodeNode;
@@ -162,7 +162,7 @@ namespace codeWork{
     }
   }
 
-  CodeNode* SFCTree::getMin(CodeNode* node){
+  CodeNode* CodeTree::getMin(CodeNode* node){
     CodeNode* current = nullptr;
     if (node){
       current = node;
@@ -172,7 +172,7 @@ namespace codeWork{
     }
     return current;
   }
-  CodeNode* SFCTree::getNext(CodeNode* node){
+  CodeNode* CodeTree::getNext(CodeNode* node){
     if (node->right){
       return getMin(node->right);
     }

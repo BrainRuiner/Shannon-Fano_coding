@@ -11,8 +11,7 @@ namespace fileWork{
   void runArgReader(std::istream& in, First& first, Other& ...other);
   void runArgReader(std::istream& in);
 
-  void readText(std::ostream& out, const std::string& text);
-  void readBinary(std::ostream& out, const std::string& binary);
+  void read(std::ostream& out, const std::string& file);
   void decode(std::ostream& out, const std::string& binary,
     const std::string& codes = "codes.txt",
     const std::string& text = "text.txt");

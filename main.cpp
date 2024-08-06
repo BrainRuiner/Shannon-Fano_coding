@@ -2,7 +2,7 @@
 #include "fileWork/commands.hpp"
 //#include "codeWork/DictionaryNode.hpp"
 //#include "utils/BinaryWriter.hpp"
-#include "codeWork/SFCTree.hpp"
+#include "codeWork/CodeTree.hpp"
 #include <fstream>
 #include <ctime>
 

@@ -1,5 +1,5 @@
 #include "commands.hpp"
-#include "../codeWork/SFCTree.hpp"
+#include "../codeWork/CodeTree.hpp"
 #include "../utils/BinaryWriter.hpp"
 
 namespace fileWork{
@@ -12,11 +12,8 @@ namespace fileWork{
     runArgReader(in, cmd, first, second, third);
     while (in){
       try{
-        if (cmd == "rt"){
-          readText(out, first);
-        }
-        else if (cmd == "rb"){
-          readBinary(out, first);
+        if (cmd == "r"){
+          read(out, first);
         }
         else if (cmd == "d"){
           decode(out, first, second, third);
@@ -50,9 +47,9 @@ namespace fileWork{
     return;
   }
 
-  void readText(std::ostream& out, const std::string& text){
+  void read(std::ostream& out, const std::string& file){
     try{
-      std::ifstream fin(text, std::ios::in);
+      std::ifstream fin(file);
       char a = 0;
       fin >> std::noskipws;
       while (!fin.eof()){
@@ -65,26 +62,11 @@ namespace fileWork{
       throw std::logic_error("<WRONG FILE NAME>");
     }
   }
-  void readBinary(std::ostream& out, const std::string& binary){
-    try{
-      std::ifstream fin(binary, std::ios::binary | std::ios::ate);
-      auto size = fin.tellg();
-      std::string str(size, '\0');
-      fin.seekg(0);
-      if (fin.read(&str[0], size)){
-        out << str << '\n';
-      }
-      fin.close();
-    }
-    catch (...){
-      throw std::logic_error("<WRONG FILE NAME>");
-    }
-  }
   void decode(std::ostream& out, const std::string& binary,
     const std::string& codes, const std::string& text){
 
     std::ifstream finCode(codes, std::ios::in);
-    codeWork::SFCTree codeTree(finCode, FROM_CODE_FILE);
+    codeWork::CodeTree codeTree(finCode, FROM_CODE_FILE);
     finCode.close();
 
     std::ifstream fin(binary, std::ios::binary);
@@ -94,21 +76,19 @@ namespace fileWork{
     fout.close();
     fin.close();
   }
-  //В бинарные файлы нужно по особому записывать
-  //Группируя по октавам. Не забудь переделать
   void encode(std::ostream& out, const std::string& text,
     const std::string& binary, const std::string& codes){
     try{
       std::ifstream fin(text, std::ios::in);
-      codeWork::SFCTree codeTree;
+      codeWork::CodeTree codeTree;
       if (codes == ""){
-        codeTree = codeWork::SFCTree(fin);
+        codeTree = codeWork::CodeTree(fin);
         fin.clear();
         fin.seekg(0);
       }
       else{
         std::ifstream finCode(codes, std::ios::in);
-        codeTree = codeWork::SFCTree(finCode, FROM_CODE_FILE);
+        codeTree = codeWork::CodeTree(finCode, FROM_CODE_FILE);
         finCode.close();
       }
       std::ofstream fout(binary, std::ios::binary);
@@ -124,7 +104,7 @@ namespace fileWork{
   void makeCodes(std::ostream& out, const std::string& text,
     const std::string& codes){
     std::ifstream fin(text, std::ios::in);
-    codeWork::SFCTree codeTree(fin);
+    codeWork::CodeTree codeTree(fin);
     fin.close();
     //codeTree.print(out);
     std::ofstream fout(codes, std::ios::out);

@@ -3,7 +3,7 @@
 namespace utils{
   BinaryWriter::BinaryWriter(): bitBuffer(0), currBit(0){}
   void BinaryWriter::write(std::ostream& out, std::istream& in,
-    codeWork::SFCTree& codeTree){
+    codeWork::CodeTree& codeTree){
     char inputCh = 0;
     std::string tmp = "";
     in >> std::noskipws;
@@ -16,7 +16,7 @@ namespace utils{
     flush(out);
   }
   void BinaryWriter::read(std::ostream& out, std::istream& in,
-    codeWork::SFCTree& codeTree){
+    codeWork::CodeTree& codeTree){
     char ch;
     std::string code;
     size_t maxCodeLength = codeTree.getMaxCodeLength();
@@ -40,7 +40,11 @@ namespace utils{
       }
     }
   }
-
+  void BinaryWriter::flush(std::ostream& out){
+    while (currBit){
+      writeBit(out, 0);
+    }
+  }
   void BinaryWriter::writeBit(std::ostream& out, char bit){
     bitBuffer <<= 1;
     if (bit == '1')
@@ -61,10 +65,5 @@ namespace utils{
       bit = '0';
     }
     return bit;
-  }
-  void BinaryWriter::flush(std::ostream& out){
-    while (currBit){
-      writeBit(out, 0);
-    }
   }
 }

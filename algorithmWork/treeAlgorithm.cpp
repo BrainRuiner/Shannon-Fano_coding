@@ -1,29 +1,29 @@
-#include "SFC.hpp"
+#include "treeAlgorithm.hpp"
 
-namespace sfc{
-  void useSfcAlgo(CodeNode* list){
+namespace awk{
+  void listToTree(cwk::CodeNode* list){
     if (!list->right){
       return;
     }
-    CodeNode* current = divideAndZeros(list);
-    CodeNode* tmp = current;
+    cwk::CodeNode* current = divideAndZeros(list);
+    cwk::CodeNode* tmp = current;
     while (tmp){
       tmp->code += '1';
       tmp = tmp->right;
     }
-    CodeNode* newList = new CodeNode;
+    cwk::CodeNode* newList = new cwk::CodeNode;
     newList->parent = list->parent;
-    codeWork::swap(*newList, *list);
+    cwk::swap(*newList, *list);
     list->left = newList;
     list->right = current;
     newList->parent = list;
     current->parent = list;
-    useSfcAlgo(newList);
-    useSfcAlgo(current);
+    listToTree(newList);
+    listToTree(current);
   }
-  CodeNode* divideAndZeros(CodeNode* list){
+  cwk::CodeNode* divideAndZeros(cwk::CodeNode* list){
     double barrierCount = calcGlobCount(list) * 0.5;
-    CodeNode* previous = list;
+    cwk::CodeNode* previous = list;
     size_t sum = list->quantity;
     size_t prevSum = sum;
     do{
@@ -44,7 +44,7 @@ namespace sfc{
     previous->right = nullptr;
     return list;
   }
-  size_t calcGlobCount(CodeNode* list){
+  size_t calcGlobCount(cwk::CodeNode* list){
     double globCount = 0;
     while (list){
       globCount += list->quantity;

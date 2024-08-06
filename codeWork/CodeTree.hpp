@@ -1,5 +1,5 @@
-#ifndef SFC_TREE_HPP
-#define SFC_TREE_HPP
+#ifndef CODE_TREE_HPP
+#define CODE_TREE_HPP
 
 #include <iostream>
 #include "CodeNode.hpp"
@@ -7,16 +7,16 @@
 #define FROM_CODE_FILE true
 
 namespace codeWork{
-  class SFCTree{
+  class CodeTree{
     public:
-    SFCTree();
-    SFCTree(std::istream& in, bool isCodeFile = false);
-    SFCTree(const SFCTree& src) = delete;
-    SFCTree(SFCTree&& src);
-    ~SFCTree();
+    CodeTree();
+    CodeTree(std::istream& in, bool isCodeFile = false);
+    CodeTree(const CodeTree& src) = delete;
+    CodeTree(CodeTree&& src);
+    ~CodeTree();
 
-    SFCTree& operator=(const SFCTree& src) = delete;
-    SFCTree& operator=(SFCTree&& src);
+    CodeTree& operator=(const CodeTree& src) = delete;
+    CodeTree& operator=(CodeTree&& src);
 
     void print(std::ostream& out);
     std::string findCode(char key);
