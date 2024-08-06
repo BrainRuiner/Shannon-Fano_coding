@@ -27,7 +27,7 @@ namespace codeWork{
     CodeNode* current = getMin(root);
     while (current){
       if (current->key){
-        out << current->key << ' ' << current->code << '\n';
+        out << current->key << ':' << current->code << '\n';
       }
       current = getNext(current);
     }
@@ -121,7 +121,45 @@ namespace codeWork{
     sfc::useSfcAlgo(root);
   }
   void SFCTree::readTree(std::istream& in){
-
+    try{
+      if (!root){
+        root = new CodeNode;
+      }
+      in >> std::noskipws;
+      while (!in.eof()){
+        CodeNode* newNode = new CodeNode;
+        in >> *newNode;
+        CodeNode* current = root;
+        for (size_t i = 0; i < newNode->code.length() - 1; ++i){
+          if (newNode->code[i] == '0'){
+            if (!current->left){
+              CodeNode* newLeft = new CodeNode;
+              current->left = newLeft;
+              newLeft->parent = current;
+            }
+            current = current->left;
+          }
+          else{
+            if (!current->right){
+              CodeNode* newRight = new CodeNode;
+              current->right = newRight;
+              newRight->parent = current;
+            }
+            current = current->right;
+          }
+        }
+        if (newNode->code[newNode->code.length() - 1] == '0'){
+          current->left = newNode;
+        }
+        else{
+          current->right = newNode;
+        }
+        newNode->parent = current;
+      }
+    }
+    catch (...){
+      throw std::logic_error("COULD NOT READ CODES");
+    }
   }
 
   CodeNode* SFCTree::getMin(CodeNode* node){

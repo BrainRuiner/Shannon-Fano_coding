@@ -3,6 +3,7 @@
 //#include "codeWork/DictionaryNode.hpp"
 //#include "utils/BinaryWriter.hpp"
 #include "codeWork/SFCTree.hpp"
+#include <fstream>
 
 int main(){
   // fileWork::readText(std::cout, "testData/text.txt");
@@ -23,8 +24,18 @@ int main(){
   //   "bigRes.txt");
   //fileWork::runCommandLoop(std::cout, std::cin);
 
-  codeWork::SFCTree tree(std::cin);
+  std::ifstream f("z.txt");
+  codeWork::SFCTree tree(f, true);
   tree.print(std::cout);
+  // codeWork::CodeNode tmp;
+  // f >> std::noskipws;
+  // while (!f.eof()){
+  //   f >> tmp;
+  //   std::cout << tmp.key << ' ' << tmp.code << '\n';
+  //   //std::cout << f.peek() << f.eof() << '\n';
+
+  // }
+  f.close();
 
   return 0;
 }

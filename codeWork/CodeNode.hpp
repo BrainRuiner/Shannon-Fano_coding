@@ -19,6 +19,7 @@ namespace codeWork{
     CodeNode& pushCode();
     CodeNode& pull(DictionaryNode& origin);
   };
+  std::istream& operator>>(std::istream& in, CodeNode& node);
   void swap(CodeNode& a, CodeNode& b);
   CodeNode* pushCodeArr(CodeNode* nodes, size_t size);
   CodeNode* pullArr(CodeNode* dest, DictionaryNode* origin, size_t size);

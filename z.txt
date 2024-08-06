@@ -1,1 +1,7 @@
-aabbbwzrpppppppppp
+a:00
+b:01
+c:100
+d:101
+e:110
+
+:111
