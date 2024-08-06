@@ -1,38 +1,37 @@
 #include "CodeNode.hpp"
+#include "../utils/Delimiter.hpp"
 
 namespace codeWork{
-  CodeNode::CodeNode(char k, size_t q, DictionaryNode* o,
-    const std::string& c, CodeNode* n)
-    : DictionaryNode(k, q, c), origin(o), next(n){}
+  CodeNode::CodeNode(char k, size_t q, const std::string& c,
+    CodeNode* r, CodeNode* l, CodeNode* p)
+    : key(k), quantity(q), code(c), right(r), left(l), parent(p){}
   CodeNode::~CodeNode(){
-    delete next;
+    delete left;
+    delete right;
   }
-  CodeNode& CodeNode::pushCode(){
-    origin->code = code;
-    return *this;
-  }
-  CodeNode& CodeNode::pull(DictionaryNode& origin){
-    key = origin.key;
-    quantity = origin.quantity;
-    code = origin.code;
-    this->origin = &origin;
-    return *this;
-  }
-  CodeNode* pushCodeArr(CodeNode* nodes, size_t size){
-    for (size_t i = 0; i < size; ++i){
-      nodes[i].pushCode();
+  std::istream& operator>>(std::istream& in, CodeNode& node){
+    std::istream::sentry guard(in);
+    if (!guard){
+      return in;
     }
-    return nodes;
-  }
-  CodeNode* pullArr(CodeNode* dest, DictionaryNode* origin, size_t size){
-    for (size_t i = 0; i < size; ++i){
-      dest[i].pull(origin[i]);
+    in >> std::noskipws;
+    CodeNode input;
+    using del = utils::DelimiterI;
+    in >> input.key >> del{ ':' } >> input.code >> del{ '\n' };
+    in.peek();
+    if (in){
+      node = input;
     }
-    return dest;
+    return in;
+  }
+  void swap(CodeNode& a, CodeNode& b){
+    CodeNode tmp(a);
+    a = b;
+    b = tmp;
   }
   CodeNode* makeIntoList(CodeNode* nodes, size_t size){
     for (size_t i = 0; i < size - 1; ++i){
-      nodes[i].next = &nodes[i + 1];
+      nodes[i].right = &nodes[i + 1];
     }
     return nodes;
   }
@@ -40,5 +39,12 @@ namespace codeWork{
     for (size_t i = 0; i < size; ++i){
       out << nodes[i].key << ' ' << nodes[i].code << '\n';
     }
+  }
+  void print(CodeNode* list){
+    while (list){
+      std::cout << list->key;
+      list = list->right;
+    }
+    std::cout << '\n';
   }
 }

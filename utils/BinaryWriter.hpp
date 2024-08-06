@@ -2,14 +2,15 @@
 #define BIN_WRITER_HPP
 
 #include <iostream>
-#include "../codeWork/Dictionary.hpp"
+//#include "../codeWork/Dictionary.hpp"
+#include "../codeWork/SFCTree.hpp"
 
 namespace utils{
   class BinaryWriter{
     public:
     BinaryWriter();
-    void write(std::ostream& out, std::istream& in, codeWork::Dictionary& dict);
-    void read(std::ostream& out, std::istream& in, codeWork::Dictionary& dict);
+    void write(std::ostream& out, std::istream& in, codeWork::SFCTree& codeTree);
+    void read(std::ostream& out, std::istream& in, codeWork::SFCTree& codeTree);
 
     void writeBit(std::ostream& out, char bit);
     char readBitChar(char ch);

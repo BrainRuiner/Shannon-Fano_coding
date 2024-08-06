@@ -2,7 +2,8 @@
 #include <fstream>
 #include <string>
 #include <iostream>
-#include "../codeWork/Dictionary.hpp"
+// #include "../codeWork/Dictionary.hpp"
+#include "../codeWork/SFCTree.hpp"
 #include "../utils/BinaryWriter.hpp"
 
 namespace fileWork{
@@ -87,13 +88,13 @@ namespace fileWork{
     const std::string& codes, const std::string& text){
 
     std::ifstream finCode(codes, std::ios::in);
-    codeWork::Dictionary dict(finCode, FROM_CODE_FILE);
+    codeWork::SFCTree codeTree(finCode, FROM_CODE_FILE);
     finCode.close();
 
     std::ifstream fin(binary, std::ios::binary);
     std::ofstream fout(text, std::ios::out);
     utils::BinaryWriter b;
-    b.read(fout, fin, dict);
+    b.read(fout, fin, codeTree);
     fout.close();
     fin.close();
   }
@@ -103,20 +104,20 @@ namespace fileWork{
     const std::string& binary, const std::string& codes){
     try{
       std::ifstream fin(text, std::ios::in);
-      codeWork::Dictionary dict;
+      codeWork::SFCTree codeTree;
       if (codes == ""){
-        dict = codeWork::Dictionary(fin);
+        codeTree = codeWork::SFCTree(fin);
         fin.clear();
         fin.seekg(0);
       }
       else{
         std::ifstream finCode(codes, std::ios::in);
-        dict = codeWork::Dictionary(finCode, FROM_CODE_FILE);
+        codeTree = codeWork::SFCTree(finCode, FROM_CODE_FILE);
         finCode.close();
       }
       std::ofstream fout(binary, std::ios::binary);
       utils::BinaryWriter bw;
-      bw.write(fout, fin, dict);
+      bw.write(fout, fin, codeTree);
       fin.close();
       fout.close();
     }
@@ -127,11 +128,11 @@ namespace fileWork{
   void makeCodes(std::ostream& out, const std::string& text,
     const std::string& codes){
     std::ifstream fin(text, std::ios::in);
-    codeWork::Dictionary dict(fin);
+    codeWork::SFCTree codeTree(fin);
     fin.close();
-    dict.print(out);
+    //codeTree.print(out);
     std::ofstream fout(codes, std::ios::out);
-    dict.print(fout);
+    codeTree.print(fout);
     fout.close();
   }
 }

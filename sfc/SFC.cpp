@@ -7,41 +7,27 @@ namespace sfc{
   void print(CodeNode* list){
     while (list){
       std::cout << list->key << ' ' << list->code << '\n';
-      list = list->next;
+      list = list->right;
     }
-  }
-
-  DictNode* fillCodes(DictNode* nodes, size_t size){
-    CodeNode* workNodes = nullptr;
-    try{
-      workNodes = new CodeNode[size];
-      codeWork::pullArr(workNodes, nodes, size);
-      checkAndSort(workNodes, size);
-      CodeNode* list = codeWork::makeIntoList(workNodes, size);
-      useSfcAlgo(list);
-      codeWork::pushCodeArr(workNodes, size);
-      delete[] workNodes;
-    }
-    catch (const std::bad_alloc& e){
-      throw std::logic_error("<WRONG SIZE>");
-    }
-    catch (...){
-      delete[] workNodes;
-      throw;
-    }
-    return nodes;
   }
   void useSfcAlgo(CodeNode* list){
-    if (!list->next){
+    if (!list->right){
       return;
     }
     CodeNode* current = divideAndZeros(list);
     CodeNode* tmp = current;
     while (tmp){
       tmp->code += '1';
-      tmp = tmp->next;
+      tmp = tmp->right;
     }
-    useSfcAlgo(list);
+    CodeNode* newList = new CodeNode;
+    newList->parent = list->parent;
+    codeWork::swap(*newList, *list);
+    list->left = newList;
+    list->right = current;
+    newList->parent = list;
+    current->parent = list;
+    useSfcAlgo(newList);
     useSfcAlgo(current);
   }
   CodeNode* divideAndZeros(CodeNode* list){
@@ -52,7 +38,7 @@ namespace sfc{
     do{
       list->code += '0';
       previous = list;
-      list = list->next;
+      list = list->right;
       prevSum = sum;
       sum += list->quantity;
     } while (list && sum < barrierCount);
@@ -62,16 +48,16 @@ namespace sfc{
     if (sum - barrierCount <= barrierCount - prevSum){
       list->code += '0';
       previous = list;
-      list = list->next;
+      list = list->right;
     }
-    previous->next = nullptr;
+    previous->right = nullptr;
     return list;
   }
   size_t calcGlobCount(CodeNode* list){
     double globCount = 0;
     while (list){
       globCount += list->quantity;
-      list = list->next;
+      list = list->right;
     }
     return globCount;
   }
