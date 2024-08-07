@@ -8,10 +8,10 @@
 
 void bigTest(){
   auto c1 = std::clock();
-  fileWork::makeCodes(std::cout, "bigfile.txt", "bigCodes.txt");
+  fileWork::makeCodes(std::cout, "bigfile2.txt", "bigCodes.txt");
   std::cout << "makeCodes: " << std::clock() - c1 << '\n';
   c1 = std::clock();
-  fileWork::encode(std::cout, "bigfile.txt", "bigBinary.bin",
+  fileWork::encode(std::cout, "bigfile2.txt", "bigBinary.bin",
     "bigCodes.txt");
   std::cout << "encode: " << std::clock() - c1 << '\n';
   c1 = std::clock();
@@ -21,6 +21,7 @@ void bigTest(){
 }
 
 int main(){
-  fileWork::runCommandLoop(std::cout, std::cin);
+  bigTest();
+  // fileWork::runCommandLoop(std::cout, std::cin);
   return 0;
 }

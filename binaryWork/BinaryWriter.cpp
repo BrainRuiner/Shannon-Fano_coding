@@ -42,7 +42,7 @@ namespace binaryWork{
   }
   void BinaryWriter::flush(std::ostream& out){
     while (currBit){
-      writeBit(out, 0);
+      writeBit(out, '1');
     }
   }
   void BinaryWriter::writeBit(std::ostream& out, char bit){
