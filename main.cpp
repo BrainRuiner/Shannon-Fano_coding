@@ -6,38 +6,23 @@
 #include <fstream>
 #include <ctime>
 
-void bigSpeedTest(){
+void speedTest(const std::string& path, const std::string& file){
+  std::cout << path + file << '\n';
   auto c1 = std::clock();
-  fileWork::makeCodes(std::cout, "bigfile2.txt", "bigCodes.txt");
+  fileWork::makeCodes(std::cout, path + file);
   std::cout << "makeCodes: " << std::clock() - c1 << '\n';
   c1 = std::clock();
-  fileWork::encode(std::cout, "bigfile2.txt", "bigBinary.bin",
-    "bigCodes.txt");
+  fileWork::encode(std::cout, file);
   std::cout << "encode: " << std::clock() - c1 << '\n';
   c1 = std::clock();
-  fileWork::decode(std::cout, "bigBinary.bin", "bigCodes.txt",
-    "bigRes.txt");
-  std::cout << "decode: " << std::clock() - c1 << '\n';
-}
-
-void bookSpeedTest(){
-  auto c1 = std::clock();
-  fileWork::makeCodes(std::cout, "alice.txt", "aliceCodes.txt");
-  std::cout << "makeCodes: " << std::clock() - c1 << '\n';
-  c1 = std::clock();
-  fileWork::encode(std::cout, "alice.txt", "aliceBinary.bin",
-    "aliceCodes.txt");
-  std::cout << "encode: " << std::clock() - c1 << '\n';
-  c1 = std::clock();
-  fileWork::decode(std::cout, "aliceBinary.bin", "aliceCodes.txt",
-    "aliceRes.txt");
+  fileWork::decode(std::cout, path + "binary" + file, path + "codes" + file);
   std::cout << "decode: " << std::clock() - c1 << '\n';
 }
 
 int main(){
-  //bigSpeedTest();
-  bookSpeedTest();
-  //bookTest2();
-  fileWork::runCommandLoop(std::cout, std::cin);
+  speedTest("./testData/", "bigfile.txt");
+  speedTest("./testData/books/", "alice.txt");
+  speedTest("./testData/books/", "book-war-and-peace.txt");
+  //fileWork::runCommandLoop(std::cout, std::cin);
   return 0;
 }

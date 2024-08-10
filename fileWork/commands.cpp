@@ -71,6 +71,7 @@ namespace fileWork{
   void decode(std::ostream& out, const std::string& binary, const std::string& codes,
     const std::string& text){
     try{
+      out << "Decode....";
       std::ifstream finCode(codes, std::ios::in);
       if (!finCode){
         throw std::logic_error("<WRONG FILE NAME>");
@@ -95,16 +96,17 @@ namespace fileWork{
       b.read(fout, fin, codeTree);
       fout.close();
       fin.close();
-      out << "Decode....COMPLETE\n";
+      out << "COMPLETE\n";
     }
     catch (...){
-      out << "Decode....FAIL: ";
+      out << "FAIL: ";
       throw;
     }
   }
   void encode(std::ostream& out, const std::string& text, const std::string& binary,
     const std::string& codes){
     try{
+      out << "Encode....";
       std::ifstream fin(text);
       if (!fin){
         throw std::logic_error("<WRONG FILE NAME>");
@@ -139,15 +141,16 @@ namespace fileWork{
       bw.write(fout, fin, codeTree);
       fin.close();
       fout.close();
-      out << "Encode....COMPLETE\n";
+      out << "COMPLETE\n";
     }
     catch (...){
-      out << "Encode....FAIL: ";
+      out << "FAIL: ";
       throw;
     }
   }
   void makeCodes(std::ostream& out, const std::string& text, const std::string& codes){
     try{
+      out << "MakeCodes....";
       std::ifstream fin(text, std::ios::in);
       if (!fin){
         throw std::logic_error("<WRONG FILE NAME>");
@@ -166,10 +169,10 @@ namespace fileWork{
       }
       codeTree.print(fout);
       fout.close();
-      out << "MakeCodes....COMPLETE\n";
+      out << "COMPLETE\n";
     }
     catch (...){
-      out << "MakeCodes....FAIL: ";
+      out << "FAIL: ";
       throw;
     }
   }
