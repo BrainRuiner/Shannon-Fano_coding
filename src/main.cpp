@@ -1,10 +1,6 @@
 #include <iostream>
-#include "fileWork/commands.hpp"
-//#include "codeWork/DictionaryNode.hpp"
-//#include "utils/BinaryWriter.hpp"
-#include "codeWork/CodeTree.hpp"
-#include <fstream>
 #include <ctime>
+#include "fileWork/commands.hpp"
 
 void speedTest(const std::string& path, const std::string& file){
   std::cout << path + file << '\n';

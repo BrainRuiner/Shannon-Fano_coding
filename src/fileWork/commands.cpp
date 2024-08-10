@@ -151,7 +151,7 @@ namespace fileWork{
   void makeCodes(std::ostream& out, const std::string& text, const std::string& codes){
     try{
       out << "MakeCodes....";
-      std::ifstream fin(text, std::ios::in);
+      std::ifstream fin(text);
       if (!fin){
         throw std::logic_error("<WRONG FILE NAME>");
       }
@@ -159,7 +159,7 @@ namespace fileWork{
       fin.close();
       std::ofstream fout;
       if (codes.length() == 0){
-        fout.open("codes" + text);
+        fout.open(text);
       }
       else{
         fout.open(codes);
