@@ -1,7 +1,6 @@
 #include "commands.hpp"
 #include "../codeWork/CodeTree.hpp"
 #include "../binaryWork/BinaryWriter.hpp"
-#include <ctime>
 
 namespace fileWork{
   void runCommandLoop(std::ostream& out, std::istream& in){

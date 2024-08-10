@@ -51,7 +51,7 @@ void bookTest2(){
 int main(){
   //bigTest();
   bookTest();
-  bookTest2();
+  //bookTest2();
   // fileWork::runCommandLoop(std::cout, std::cin);
   return 0;
 }
