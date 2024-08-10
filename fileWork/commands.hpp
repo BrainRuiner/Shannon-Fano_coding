@@ -11,15 +11,15 @@ namespace fileWork{
   void runArgReader(std::istream& in, First& first, Other& ...other);
   void runArgReader(std::istream& in);
 
-  void read(std::ostream& out, const std::string& file);
+  void read(std::ostream& out, const std::string& file = "");
   void decode(std::ostream& out, const std::string& binary,
-    const std::string& codes = "codes.txt",
-    const std::string& text = "text.txt");
+    const std::string& codes,
+    const std::string& text = "");
   void encode(std::ostream& out, const std::string& text,
-    const std::string& binary = "binary.bin",
+    const std::string& binary = "",
     const std::string& codes = "");
   void makeCodes(std::ostream& out, const std::string& text,
-    const std::string& codes = "codes.txt");
+    const std::string& codes = "");
 }
 
 #endif

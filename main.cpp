@@ -6,7 +6,7 @@
 #include <fstream>
 #include <ctime>
 
-void bigTest(){
+void bigSpeedTest(){
   auto c1 = std::clock();
   fileWork::makeCodes(std::cout, "bigfile2.txt", "bigCodes.txt");
   std::cout << "makeCodes: " << std::clock() - c1 << '\n';
@@ -20,7 +20,7 @@ void bigTest(){
   std::cout << "decode: " << std::clock() - c1 << '\n';
 }
 
-void bookTest(){
+void bookSpeedTest(){
   auto c1 = std::clock();
   fileWork::makeCodes(std::cout, "alice.txt", "aliceCodes.txt");
   std::cout << "makeCodes: " << std::clock() - c1 << '\n';
@@ -34,24 +34,10 @@ void bookTest(){
   std::cout << "decode: " << std::clock() - c1 << '\n';
 }
 
-void bookTest2(){
-  auto c1 = std::clock();
-  fileWork::makeCodes(std::cout, "mobyDick.txt", "mobyDickCodes.txt");
-  std::cout << "makeCodes: " << std::clock() - c1 << '\n';
-  c1 = std::clock();
-  fileWork::encode(std::cout, "mobyDick.txt", "mobyDickBinary.bin",
-    "mobyDickCodes.txt");
-  std::cout << "encode: " << std::clock() - c1 << '\n';
-  c1 = std::clock();
-  fileWork::decode(std::cout, "mobyDickBinary.bin", "mobyDickCodes.txt",
-    "mobyDickRes.txt");
-  std::cout << "decode: " << std::clock() - c1 << '\n';
-}
-
 int main(){
-  //bigTest();
-  bookTest();
+  //bigSpeedTest();
+  bookSpeedTest();
   //bookTest2();
-  // fileWork::runCommandLoop(std::cout, std::cin);
+  fileWork::runCommandLoop(std::cout, std::cin);
   return 0;
 }
