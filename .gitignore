@@ -1,8 +1,8 @@
-#projMaker
-.proj/
 #execs
 *.exe
 *.out
+#objFiles
+*.o
 #vscode
 .vscode/
 #tests
