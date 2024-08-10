@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-c -Wall -Wextra -Wold-style-cast
 LDFLAGS=
-SOURCES=$(shell find -name "*.cpp")
+SOURCES=$(shell find . -name "*.cpp")
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=SFCoding
 
