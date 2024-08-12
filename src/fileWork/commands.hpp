@@ -20,6 +20,8 @@ namespace fileWork{
     const std::string& codes = "");
   void makeCodes(std::ostream& out, const std::string& text,
     const std::string& codes = "");
+
+  std::string insert(char delimiter, const std::string& insert, const std::string& fileName);
 }
 
 #endif

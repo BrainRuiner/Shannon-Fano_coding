@@ -8,7 +8,7 @@ void speedTest(const std::string& path, const std::string& file){
   fileWork::makeCodes(std::cout, path + file);
   std::cout << "makeCodes: " << std::clock() - c1 << '\n';
   c1 = std::clock();
-  fileWork::encode(std::cout, file);
+  fileWork::encode(std::cout, path + file);
   std::cout << "encode: " << std::clock() - c1 << '\n';
   c1 = std::clock();
   fileWork::decode(std::cout, path + "binary" + file, path + "codes" + file);

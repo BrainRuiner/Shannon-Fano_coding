@@ -1,4 +1,5 @@
 #include "commands.hpp"
+#include <string>
 #include "../codeWork/CodeTree.hpp"
 #include "../binaryWork/BinaryWriter.hpp"
 
@@ -62,6 +63,7 @@ namespace fileWork{
       fin.close();
       out << "\n";
       out << "Read....COMPLETE\n";
+      out.flush();
     }
     catch (...){
       out << "Read....FAIL: ";
@@ -84,7 +86,7 @@ namespace fileWork{
       }
       std::ofstream fout;
       if (text.length() == 0){
-        fout.open("text" + binary);
+        fout.open(insert('/', "text", binary));
       }
       else{
         fout.open(text);
@@ -97,6 +99,7 @@ namespace fileWork{
       fout.close();
       fin.close();
       out << "COMPLETE\n";
+      out.flush();
     }
     catch (...){
       out << "FAIL: ";
@@ -121,15 +124,13 @@ namespace fileWork{
         codeTree = codeWork::CodeTree(fin);
         fin.clear();
         fin.seekg(0);
-        if (codes.length() == 0){
-          std::ofstream foutCodes("codes" + text);
-          codeTree.print(foutCodes);
-          foutCodes.close();
-        }
+        std::ofstream foutCodes(insert('/', "codes", text));
+        codeTree.print(foutCodes);
+        foutCodes.close();
       }
       std::ofstream fout;
       if (binary.length() == 0){
-        fout.open("binary" + text);
+        fout.open(insert('/', "binary", text));
       }
       else{
         fout.open(binary);
@@ -142,6 +143,7 @@ namespace fileWork{
       fin.close();
       fout.close();
       out << "COMPLETE\n";
+      out.flush();
     }
     catch (...){
       out << "FAIL: ";
@@ -159,7 +161,7 @@ namespace fileWork{
       fin.close();
       std::ofstream fout;
       if (codes.length() == 0){
-        fout.open(text);
+        fout.open(insert('/', "codes", text));
       }
       else{
         fout.open(codes);
@@ -170,10 +172,20 @@ namespace fileWork{
       codeTree.print(fout);
       fout.close();
       out << "COMPLETE\n";
+      out.flush();
     }
     catch (...){
       out << "FAIL: ";
       throw;
     }
+  }
+  std::string insert(char delimiter, const std::string& insert, const std::string& fileName){
+    size_t i = fileName.length() - 1;
+    std::string result = fileName;
+    for (; i > 0 && fileName[i] != delimiter; --i);
+    if (fileName[i] == delimiter){
+      ++i;
+    }
+    return result.insert(i, insert);
   }
 }
