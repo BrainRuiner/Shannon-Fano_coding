@@ -6,4 +6,5 @@
 #vscode
 .vscode/
 #tests
-**/big*.*
+**/*big*.*
+!**/bigfile.txt
