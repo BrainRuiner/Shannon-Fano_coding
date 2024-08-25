@@ -10,7 +10,7 @@ all: $(SOURCES) $(EXECUTABLE)
 $(EXECUTABLE): $(OBJECTS) 
 	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 
-.cpp.o:
+%.o: %.cpp
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
