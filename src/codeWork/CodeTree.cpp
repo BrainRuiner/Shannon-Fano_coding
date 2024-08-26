@@ -110,7 +110,7 @@ namespace codeWork{
           }
         }
         catch (const std::bad_alloc&){
-          throw std::logic_error("<COULD NOT CREATE DICTIONARY>");
+          throw std::logic_error("<COULD NOT CREATE TREE>");
         }
       }
     }
