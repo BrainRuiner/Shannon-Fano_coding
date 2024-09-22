@@ -70,8 +70,7 @@ namespace fileWork{
       throw std::logic_error("<WRONG FILE NAME>");
     }
   }
-  void decode(std::ostream& out, const std::string& binary, const std::string& codes,
-    const std::string& text){
+  void decode(std::ostream& out, const std::string& binary, const std::string& codes, const std::string& text){
     try{
       out << "Decode....";
       std::ifstream finCode(codes, std::ios::in);
@@ -95,8 +94,7 @@ namespace fileWork{
         throw std::logic_error("<WRONG FILE NAME>");
       }
       binaryWork::BinaryWriter b;
-      b.read(fout, fin, codeTree);
-      fout.close();
+      b.read(fout, fin, codeTree); fout.close();
       fin.close();
       out << "COMPLETE\n";
       out.flush();
