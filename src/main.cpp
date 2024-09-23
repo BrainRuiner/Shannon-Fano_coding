@@ -16,9 +16,9 @@ void speedTest(const std::string& path, const std::string& file){
 }
 
 int main(){
-  speedTest("./testData/", "bigfile.txt");
-  speedTest("./testData/books/", "alice.txt");
+  //speedTest("./testData/", "bigfile.txt");
+  //speedTest("./testData/books/", "alice.txt");
   //speedTest("./testData/books/", "book-war-and-peace.txt");
-  //fileWork::runCommandLoop(std::cout, std::cin);
+  fileWork::runCommandLoop(std::cout, std::cin);
   return 0;
 }
